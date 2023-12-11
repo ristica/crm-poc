@@ -6,5 +6,6 @@ namespace Crm.Presenters.Contracts.Base
     {
         IBaseChildView GetView();
         void ShowView(IBaseView mdiContainerForm);
+        void SetCurrentRole(string role);
     }
 }

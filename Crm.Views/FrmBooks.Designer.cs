@@ -47,12 +47,12 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 10F, FontStyle.Bold | FontStyle.Italic | FontStyle.Underline);
+            label1.Font = new Font("Segoe UI", 10F, FontStyle.Italic | FontStyle.Underline);
             label1.Location = new Point(20, 15);
             label1.Name = "label1";
-            label1.Size = new Size(108, 19);
+            label1.Size = new Size(92, 19);
             label1.TabIndex = 0;
-            label1.Text = "Books => Read";
+            label1.Text = "Books (READ)";
             // 
             // groupBox1
             // 

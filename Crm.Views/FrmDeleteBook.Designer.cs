@@ -34,12 +34,12 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 10F, FontStyle.Bold | FontStyle.Italic | FontStyle.Underline);
+            label1.Font = new Font("Segoe UI", 10F, FontStyle.Italic | FontStyle.Underline);
             label1.Location = new Point(20, 15);
             label1.Name = "label1";
-            label1.Size = new Size(167, 19);
+            label1.Size = new Size(148, 19);
             label1.TabIndex = 1;
-            label1.Text = "Delete a book => Delete";
+            label1.Text = "Delete a book (Delete)";
             // 
             // FrmDeleteBook
             // 
@@ -48,6 +48,8 @@
             AutoSize = true;
             ClientSize = new Size(800, 450);
             Controls.Add(label1);
+            Font = new Font("Segoe UI", 9F);
+            FormBorderStyle = FormBorderStyle.None;
             Name = "FrmDeleteBook";
             StartPosition = FormStartPosition.CenterParent;
             Text = "Delete a book";

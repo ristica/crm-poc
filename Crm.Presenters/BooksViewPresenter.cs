@@ -18,7 +18,6 @@ namespace Crm.Presenters
         
         private readonly IFrmBooks _view;
         private readonly IBooksService<IBook> _service;
-        private readonly IMessageNotificationsHelper _messageNotificationsHelper;
 
         #endregion
 
@@ -34,7 +33,6 @@ namespace Crm.Presenters
         {
             this._view = dependencyContainer.Resolve<IFrmBooks>();
             this._service = dependencyContainer.Resolve<IBooksService<IBook>>();
-            this._messageNotificationsHelper = dependencyContainer.Resolve<IMessageNotificationsHelper>();
 
             this.SubscribeToUserInterfaceEvents();
             this.SubscribeToNotifications();
@@ -65,10 +63,15 @@ namespace Crm.Presenters
 
         public void Dispose()
         {
-            this._messageNotificationsHelper.Unsubscribe(this, (int)MessageType.RoleChangedMessage);
+            this.MessageNotificationsHelper.Unsubscribe(this, (int)MessageType.RoleChangedMessage);
         }
 
         public void ShowView(IBaseView mdiContainerForm) => this._view.LoadChildView();
+
+        public void SetCurrentRole(string role)
+        {
+            this._view.ViewModel.CurrentRole = role;
+        }
 
         #endregion
 
@@ -83,7 +86,7 @@ namespace Crm.Presenters
 
         private void SubscribeToNotifications()
         {
-            this._messageNotificationsHelper.Subscribe(this, (int)MessageType.RoleChangedMessage);
+            this.MessageNotificationsHelper.Subscribe(this, (int)MessageType.RoleChangedMessage);
         }
 
         #endregion

@@ -126,14 +126,6 @@ namespace Crm.Views
             this.Children = null;
         }
 
-        private string MapMenuToConstant(string menu)
-        {
-            if (menu.ToLowerInvariant().StartsWith("no")) return MenuRoleConstants.NoRole;
-            if (menu.ToLowerInvariant().Contains("delete")) return MenuRoleConstants.ReadWriteDelete;
-            if (menu.ToLowerInvariant().Contains("write")) return MenuRoleConstants.ReadWrite;
-            return menu.ToLowerInvariant().Contains("read") ? MenuRoleConstants.Read : MenuRoleConstants.NoRole;
-        }
-
         #endregion
     }
 }

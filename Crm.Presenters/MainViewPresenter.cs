@@ -13,7 +13,6 @@ namespace Crm.Presenters
         #region FIELDS
 
         private readonly IFrmMain _view;
-        private readonly IMessageNotificationsHelper _messageNotificationsHelper;
 
         #endregion
 
@@ -22,7 +21,6 @@ namespace Crm.Presenters
         public MainViewPresenter(IDependencyContainer dependencyContainer) : base(dependencyContainer)
         {
             this._view = dependencyContainer.Resolve<IFrmMain>();
-            this._messageNotificationsHelper = dependencyContainer.Resolve<IMessageNotificationsHelper>();
 
             this.SubscribeToUserInterfaceEvents();
             this.SubscribeToNotifications();
@@ -62,14 +60,19 @@ namespace Crm.Presenters
                     switch (menuFormsEventArgs.NewForm)
                     {
                         case MenuFormsConstants.Books:
-                            var newView = DependencyContainer.Resolve<IBooksViewPresenter>().GetView();
+                            var presenter = DependencyContainer.Resolve<IBooksViewPresenter>();
+                            var newView = presenter.GetView();
                             var exists = this._view.Children.SingleOrDefault(child => child.GetType() == newView.GetType());
                             if (exists == null)
                             {
+                                presenter.SetCurrentRole(this._view.ViewModel.CurrentRole);
                                 this._view.Children.Add(newView);
                                 view = newView;
                             }
-                            else this._view.MaximizeChild(exists);
+                            else
+                            {
+                                this._view.MaximizeChild(exists);
+                            }
                             break;
                         case MenuFormsConstants.AddBook:
                             break;
@@ -95,10 +98,10 @@ namespace Crm.Presenters
             // ReSharper disable once EventUnsubscriptionViaAnonymousDelegate
             this._view.FormCloseEventRaised -= (sender, args) => { };
 
-            this._messageNotificationsHelper.Unsubscribe(this, (int)MessageType.RoleChangedMessage);
-            this._messageNotificationsHelper.Unsubscribe(this, (int)MessageType.FormChangedMessage);
+            this.MessageNotificationsHelper.Unsubscribe(this, (int)MessageType.RoleChangedMessage);
+            this.MessageNotificationsHelper.Unsubscribe(this, (int)MessageType.FormChangedMessage);
 
-            this._messageNotificationsHelper.Dispose();
+            this.MessageNotificationsHelper.Dispose();
         }
 
         #endregion
@@ -119,8 +122,8 @@ namespace Crm.Presenters
 
         private void SubscribeToNotifications()
         {
-            this._messageNotificationsHelper.Subscribe(this, (int)MessageType.RoleChangedMessage);
-            this._messageNotificationsHelper.Subscribe(this, (int)MessageType.FormChangedMessage);
+            this.MessageNotificationsHelper.Subscribe(this, (int)MessageType.RoleChangedMessage);
+            this.MessageNotificationsHelper.Subscribe(this, (int)MessageType.FormChangedMessage);
         }
 
         #endregion

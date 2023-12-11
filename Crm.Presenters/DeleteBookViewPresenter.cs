@@ -62,6 +62,11 @@ namespace Crm.Presenters
             }
         }
 
+        public void SetCurrentRole(string role)
+        {
+            this._view.ViewModel.CurrentRole = role;
+        }
+
         public void Dispose()
         {
             this._messageNotificationsHelper.Unsubscribe(this, (int)MessageType.RoleChangedMessage);
