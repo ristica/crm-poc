@@ -3,6 +3,7 @@ using Crm.Common.Shared;
 using Crm.Dependencies.Contracts;
 using Crm.Presenters.Base;
 using Crm.Presenters.Contracts;
+using Crm.Presenters.Contracts.Base;
 using Crm.Views.Contracts.Base;
 using Crm.Views.Contracts.Views;
 
@@ -56,18 +57,18 @@ namespace Crm.Presenters
                     if (string.IsNullOrEmpty(form)) return;
 
                     IBaseChildView view = null;
+                    IBaseChildViewPresenter presenter;
 
                     switch (menuFormsEventArgs.NewForm)
                     {
                         case MenuFormsConstants.Books:
-                            var presenter = DependencyContainer.Resolve<IBooksViewPresenter>();
-                            var newView = presenter.GetView();
-                            var exists = this._view.Children.SingleOrDefault(child => child.GetType() == newView.GetType());
+                            presenter = DependencyContainer.Resolve<IBooksViewPresenter>();
+                            var exists = this._view.Children.SingleOrDefault(child => child.GetType() == presenter.GetView().GetType());
                             if (exists == null)
                             {
                                 presenter.SetCurrentRole(this._view.ViewModel.CurrentRole);
-                                this._view.Children.Add(newView);
-                                view = newView;
+                                this._view.Children.Add(presenter.GetView());
+                                view = presenter.GetView();
                             }
                             else
                             {
