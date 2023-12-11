@@ -41,14 +41,50 @@ namespace Crm.Presenters
 
         public void Receive(object sender, EventArgs args, int messageId)
         {
-            if (messageId == (int)MessageType.RoleChangedMessage)
+            switch (messageId)
             {
-                if (args is not MenuRoleEventArgs roleEventArgs) return;
+                case (int)MessageType.RoleChangedMessage:
 
-                var role = roleEventArgs.NewRole;
-                if (string.IsNullOrEmpty(role)) return;
+                    if(args is not MenuRoleEventArgs menuRoleEventArgs) return;
+                    var role = menuRoleEventArgs.NewRole;
+                    if (string.IsNullOrEmpty(role)) return;
+                    this._view.ViewModel.CurrentRole = role;
 
-                this._view.ViewModel.CurrentRole = role;
+                    break;
+                case (int)MessageType.FormChangedMessage:
+
+                    if (args is not MenuFormsEventArgs menuFormsEventArgs) return;
+                    var form = menuFormsEventArgs.NewForm;
+                    if (string.IsNullOrEmpty(form)) return;
+
+                    IBaseChildView view = null;
+
+                    switch (menuFormsEventArgs.NewForm)
+                    {
+                        case MenuFormsConstants.Books:
+                            var newView = DependencyContainer.Resolve<IBooksViewPresenter>().GetView();
+                            var exists = this._view.Children.SingleOrDefault(child => child.GetType() == newView.GetType());
+                            if (exists == null)
+                            {
+                                this._view.Children.Add(newView);
+                                view = newView;
+                            }
+                            else this._view.MaximizeChild(exists);
+                            break;
+                        case MenuFormsConstants.AddBook:
+                            break;
+                        case MenuFormsConstants.DeleteBook:
+                            break;
+                        default:
+                            break;
+                    }
+
+                    if (view == null) return;
+
+                    view.MdiContainerForm = this.GetView();
+                    view.LoadChildView();
+
+                    break;
             }
         }
 
@@ -58,10 +94,10 @@ namespace Crm.Presenters
             this._view.FormLoadEventRaised -= (sender, args) => { };
             // ReSharper disable once EventUnsubscriptionViaAnonymousDelegate
             this._view.FormCloseEventRaised -= (sender, args) => { };
-            // ReSharper disable once EventUnsubscriptionViaAnonymousDelegate
-            this._view.FormChildChangedEvent -= (sender, args) => { };
 
             this._messageNotificationsHelper.Unsubscribe(this, (int)MessageType.RoleChangedMessage);
+            this._messageNotificationsHelper.Unsubscribe(this, (int)MessageType.FormChangedMessage);
+
             this._messageNotificationsHelper.Dispose();
         }
 
@@ -75,38 +111,6 @@ namespace Crm.Presenters
             {
             };
 
-            this._view.FormChildChangedEvent += (sender, args) =>
-            {
-                //if (args is not RoleAndFormEventArgs eventArgs) return;
-
-                //IBaseChildView view = null;
-
-                //switch (eventArgs.Next)
-                //{
-                //    case MenuRoleConstants.Read:
-                //        var newView = DependencyContainer.Resolve<IBooksViewPresenter>().GetView();
-                //        var exists = this._view.Children.SingleOrDefault(child => child.GetType() == newView.GetType());
-                //        if (exists == null)
-                //        {
-                //            this._view.Children.Add(newView);
-                //            view = newView;
-                //        }
-                //        else this._view.MaximizeChild(exists);
-                //        break;
-                //    case MenuRoleConstants.ReadWrite:
-                //        break;
-                //    case MenuRoleConstants.ReadWriteDelete:
-                //        break;
-                //    default:
-                //        break;
-                //}
-
-                //if (view == null) return;
-
-                //view.MdiContainerForm = this.GetView();
-                //view.LoadChildView();
-            };
-
             this._view.FormCloseEventRaised += (sender, args) =>
             {
                 this.Dispose();
@@ -116,6 +120,7 @@ namespace Crm.Presenters
         private void SubscribeToNotifications()
         {
             this._messageNotificationsHelper.Subscribe(this, (int)MessageType.RoleChangedMessage);
+            this._messageNotificationsHelper.Subscribe(this, (int)MessageType.FormChangedMessage);
         }
 
         #endregion

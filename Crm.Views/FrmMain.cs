@@ -31,8 +31,6 @@ namespace Crm.Views
         #region EVENTS
 
         public event EventHandler FormLoadEventRaised;
-        public event EventHandler FormChildChangedEvent;
-
         public event EventHandler FormCloseEventRaised;
 
         #endregion
@@ -72,6 +70,14 @@ namespace Crm.Views
             ((Form)child).WindowState = FormWindowState.Maximized;
         }
 
+        public void MinimizeChildren()
+        {
+            foreach (var child in this.Children)
+            {
+                ((Form)child).WindowState = FormWindowState.Minimized;
+            }
+        }
+
         #endregion
 
         #region HELPERS
@@ -104,11 +110,8 @@ namespace Crm.Views
 
             // menu forms
             this.menuForms_Read.DataBindings.Add("Command", this._bindingList[0], "OpenReadFormCommand", true, DataSourceUpdateMode.OnPropertyChanged);
-            //this.menuForms_Read.DataBindings.Add("Enabled", this._bindingList[0], "IsRead", true, DataSourceUpdateMode.OnPropertyChanged);
             this.menuForms_ReadWrite.DataBindings.Add("Command", this._bindingList[0], "OpenReadWriteFormCommand", true, DataSourceUpdateMode.OnPropertyChanged);
-            //this.menuForms_ReadWrite.DataBindings.Add("Enabled", this._bindingList[0], "IsReadWrite", true, DataSourceUpdateMode.OnPropertyChanged);
             this.menuForms_ReadWriteDelete.DataBindings.Add("Command", this._bindingList[0], "OpenReadWriteDeleteFormCommand", true, DataSourceUpdateMode.OnPropertyChanged);
-            //this.menuForms_ReadWriteDelete.DataBindings.Add("Enabled", this._bindingList[0], "IsReadWriteDelete", true, DataSourceUpdateMode.OnPropertyChanged);
         }
 
         private void UpdateBindings()
@@ -121,19 +124,6 @@ namespace Crm.Views
             this._eventHelper.RaiseEvent(this, FormCloseEventRaised, e);
             this.Children.Clear();
             this.Children = null;
-        }
-
-        private void FormOnChanged(object sender, EventArgs e)
-        {
-            //if (sender == null) return;
-
-            //foreach (var child in this.Children)
-            //{
-            //    ((Form)child).WindowState = FormWindowState.Minimized;
-            //}
-
-            //var newForm = MapMenuToConstant(sender.ToString());
-            //this._eventHelper.RaiseEvent(this, FormChildChangedEvent, new RoleAndFormEventArgs(newForm));
         }
 
         private string MapMenuToConstant(string menu)
