@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Crm.Common.Contracts\Crm.Common.Contracts.csproj" />
+    <ProjectReference Include="..\Crm.Common.NotificationBase\Crm.Common.NotificationBase.csproj" />
+    <ProjectReference Include="..\Crm.Common.Shared\Crm.Common.Shared.csproj" />
+    <ProjectReference Include="..\Crm.Common.Utility\Crm.Common.Utility.csproj" />
+    <ProjectReference Include="..\Crm.Dependencies.Contracts\Crm.Dependencies.Contracts.csproj" />
+    <ProjectReference Include="..\Crm.Models.Contracts\Crm.Models.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

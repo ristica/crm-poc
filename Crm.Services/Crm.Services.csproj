@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Crm.Models.Contracts\Crm.Models.Contracts.csproj" />
+    <ProjectReference Include="..\Crm.Repository.Contracts\Crm.Repository.Contracts.csproj" />
+    <ProjectReference Include="..\Crm.Services.Contracts\Crm.Services.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>
