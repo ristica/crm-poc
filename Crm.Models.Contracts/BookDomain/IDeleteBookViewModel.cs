@@ -1,10 +1,13 @@
-﻿using Crm.Models.Contracts.Base;
+﻿using System.Collections.ObjectModel;
+using Crm.Common.Utility;
+using Crm.Models.Contracts.Base;
 
 namespace Crm.Models.Contracts.BookDomain
 {
     public interface IDeleteBookViewModel : IBaseViewModel
     {
-        string Isbn { get; set; }
-        IEnumerable<IBook> Books { get; set; }
+        ObservableCollection<IBook> Books { get; set; }
+        IBook CurrentBook { get; set; }
+        RelayCommand DeleteBookCommand { get; }
     }
 }

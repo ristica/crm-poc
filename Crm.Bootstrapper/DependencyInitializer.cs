@@ -62,7 +62,7 @@ namespace Crm.Bootstrapper
             container.RegisterType<IFrmMain, FrmMain>();
             container.RegisterType<IFrmBooks, FrmBooks>();
             container.RegisterType<IFrmAddBook, FrmAddBook>();
-            //container.RegisterType<IFrmDeleteBook, FrmDeleteBook>();
+            container.RegisterType<IFrmDeleteBook, FrmDeleteBook>();
         }
 
         private static void RegisterServices(IDependencyContainer container)

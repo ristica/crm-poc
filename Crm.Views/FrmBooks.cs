@@ -72,7 +72,7 @@ namespace Crm.Views
 
             // list box
             this.lbBooks.DisplayMember = "FriendlyOutput";
-            this.lbBooks.ValueMember = "Isbn";
+            this.lbBooks.ValueMember = "Id";
             this.lbBooks.DataBindings.Add("Visible", this._bindingList[0], "IsRead", true, DataSourceUpdateMode.OnPropertyChanged);
 
             // text boxes
@@ -101,8 +101,8 @@ namespace Crm.Views
             }
             else
             {
-                var isbn = lb.SelectedValue as string;
-                vm.CurrentBook = vm.Books.SingleOrDefault(b => b.Isbn.Equals(isbn));
+                var id = lb.SelectedValue;
+                vm.CurrentBook = vm.Books.SingleOrDefault(b => b.Id.Equals(id));
             }
         }
 

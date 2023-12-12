@@ -5,6 +5,7 @@
         RoleChangedMessage,
         FormChangedMessage,
         AddBookMessage,
+        DeleteBookMessage,
         ReloadBooksMessage
     }
 }

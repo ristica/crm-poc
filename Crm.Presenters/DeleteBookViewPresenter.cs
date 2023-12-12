@@ -7,6 +7,7 @@ using Crm.Presenters.Contracts;
 using Crm.Services.Contracts;
 using Crm.Views.Contracts.Base;
 using Crm.Views.Contracts.Views;
+using System.Collections.ObjectModel;
 
 namespace Crm.Presenters
 {
@@ -17,7 +18,6 @@ namespace Crm.Presenters
 
         private readonly IFrmDeleteBook _view;
         private readonly IBooksService<IBook> _service;
-        private readonly IMessageNotificationsHelper _messageNotificationsHelper;
 
         #endregion
 
@@ -33,7 +33,6 @@ namespace Crm.Presenters
         {
             this._view = dependencyContainer.Resolve<IFrmDeleteBook>();
             this._service = dependencyContainer.Resolve<IBooksService<IBook>>();
-            this._messageNotificationsHelper = dependencyContainer.Resolve<IMessageNotificationsHelper>();
 
             this.SubscribeToUserInterfaceEvents();
             this.SubscribeToNotifications();
@@ -51,14 +50,26 @@ namespace Crm.Presenters
 
         public void Receive(object sender, EventArgs args, int messageId)
         {
-            if (messageId == (int)MessageType.RoleChangedMessage)
+            switch (messageId)
             {
-                //if (args is not RoleAndFormEventArgs roleEventArgs) return;
-
-                //var role = roleEventArgs.Next;
-                //if (string.IsNullOrEmpty(role)) return;
-
-                //this._view.ViewModel.CurrentRole = role;
+                case (int)MessageType.RoleChangedMessage:
+                    if (args is not MenuRoleEventArgs roleEventArgs) return;
+                    var role = roleEventArgs.NewRole;
+                    if (string.IsNullOrEmpty(role)) return;
+                    this._view.ViewModel.CurrentRole = role;
+                    break;
+                case (int)MessageType.DeleteBookMessage:
+                    if (args is not DeleteBookEventArgs deleteEventArgs) return;
+                    this._service.Delete(deleteEventArgs.Id);
+                    this.MessageNotificationsHelper.Publish(
+                        this,
+                        EventArgs.Empty,
+                        (int)MessageType.ReloadBooksMessage);
+                    break;
+                case (int)MessageType.ReloadBooksMessage:
+                    ((IDeleteBookViewModel)this._view.ViewModel).Books = new ObservableCollection<IBook>(this._service.GetAll());
+                    this._view.UpdateBindings();
+                    break;
             }
         }
 
@@ -69,7 +80,9 @@ namespace Crm.Presenters
 
         public void Dispose()
         {
-            this._messageNotificationsHelper.Unsubscribe(this, (int)MessageType.RoleChangedMessage);
+            this.MessageNotificationsHelper.Unsubscribe(this, (int)MessageType.RoleChangedMessage);
+            this.MessageNotificationsHelper.Unsubscribe(this, (int)MessageType.DeleteBookMessage);
+            this.MessageNotificationsHelper.Unsubscribe(this, (int)MessageType.ReloadBooksMessage);
         }
 
         public void ShowView(IBaseView mdiContainerForm) => this._view.LoadChildView();
@@ -81,11 +94,14 @@ namespace Crm.Presenters
         private void SetDataContext()
         {
             this._view.ViewModel = this.DependencyContainer.Resolve<IDeleteBookViewModel>();
+            ((IDeleteBookViewModel)this._view.ViewModel).Books = new ObservableCollection<IBook>(this._service.GetAll().ToList());
         }
 
         private void SubscribeToNotifications()
         {
-            this._messageNotificationsHelper.Subscribe(this, (int)MessageType.RoleChangedMessage);
+            this.MessageNotificationsHelper.Subscribe(this, (int)MessageType.RoleChangedMessage);
+            this.MessageNotificationsHelper.Subscribe(this, (int)MessageType.DeleteBookMessage);
+            this.MessageNotificationsHelper.Subscribe(this, (int)MessageType.ReloadBooksMessage);
         }
 
         #endregion
