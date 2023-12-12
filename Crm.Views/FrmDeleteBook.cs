@@ -92,17 +92,10 @@ namespace Crm.Views
         {
             if (sender is not ComboBox cb) return;
 
-            var vm = (IDeleteBookViewModel)this.ViewModel;
-            if (cb.SelectedValue is IBook book)
-            {
-                if (vm.CurrentBook == book) return;
-                vm.CurrentBook = book;
-            }
-            else
-            {
-                var id = cb.SelectedValue;
-                vm.CurrentBook = vm.Books.SingleOrDefault(b => b.Id.Equals(id));
-            }
+
+            var vm = (IBookViewModel)this.ViewModel;
+            if (cb.SelectedItem == null) return;
+            vm.CurrentBook = cb.SelectedItem as IBook;
         }
 
         #endregion

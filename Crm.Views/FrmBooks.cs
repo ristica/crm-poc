@@ -94,16 +94,8 @@ namespace Crm.Views
             if (sender is not ListBox lb) return;
 
             var vm = (IBookViewModel)this.ViewModel;
-            if (lb.SelectedValue is IBook book)
-            {
-                if (vm.CurrentBook != null && vm.CurrentBook == book) return;
-                vm.CurrentBook = book;
-            }
-            else
-            {
-                var id = lb.SelectedValue;
-                vm.CurrentBook = vm.Books.SingleOrDefault(b => b.Id.Equals(id));
-            }
+            if (lb.SelectedItem == null) return;
+            vm.CurrentBook = lb.SelectedItem as IBook;
         }
 
         #endregion
