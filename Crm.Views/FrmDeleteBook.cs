@@ -92,8 +92,7 @@ namespace Crm.Views
         {
             if (sender is not ComboBox cb) return;
 
-
-            var vm = (IBookViewModel)this.ViewModel;
+            var vm = (IDeleteBookViewModel)this.ViewModel;
             if (cb.SelectedItem == null) return;
             vm.CurrentBook = cb.SelectedItem as IBook;
         }
