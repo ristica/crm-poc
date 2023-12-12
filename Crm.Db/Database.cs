@@ -45,7 +45,12 @@ namespace Crm.Db
 
         public void CreateBook(IBook model)
         {
-            this._books.Add(new Book { Isbn = model.Isbn, Title = model.Title });
+            this._books.Add(new Book { Id = GetNewId(), Isbn = model.Isbn, Title = model.Title, Author = model.Author, PublishYear = model.PublishYear });
+        }
+
+        private int GetNewId()
+        {
+            return this._books.Max(b => b.Id) + 1;
         }
 
         public void UpdateBook(IBook model)
@@ -54,11 +59,14 @@ namespace Crm.Db
             if (book == null) return;
 
             book.Title = model.Title;
+            book.Author = model.Author;
+            book.PublishYear = model.PublishYear;
+            book.Isbn = model.Isbn;
         }
 
-        public IBook GetBookByIsbn(string isbn)
+        public IBook GetBookById(int id)
         {
-            return this._books.SingleOrDefault(b => b.Isbn.Equals(isbn));
+            return this._books.SingleOrDefault(b => b.Id == id);
         }
 
         public IEnumerable<IBook> GetAllBooks()
@@ -66,9 +74,9 @@ namespace Crm.Db
             return this._books;
         }
 
-        public void DeleteBook(string isbn)
+        public void DeleteBook(int id)
         {
-            var book = this._books.SingleOrDefault(b => b.Isbn.Equals(isbn));
+            var book = this._books.SingleOrDefault(b => b.Id == id);
             if (book == null) return;
             this._books.Remove(book);
         }
@@ -79,10 +87,10 @@ namespace Crm.Db
 
         private void CreateBookData()
         {
-            this._books.Add(new Book { Isbn = "10000001", Title = "The free market and it's enemies", Author = "Ludwig von Mises", PublishYear = 1951 });
-            this._books.Add(new Book { Isbn = "10000002", Title = "The road to serfdom", Author = "Friedrich A. von Hayek", PublishYear = 1944 });
-            this._books.Add(new Book { Isbn = "10000003", Title = "The fountainhead", Author = "Ayn Rand", PublishYear = 1943 });
-            this._books.Add(new Book { Isbn = "10000004", Title = "Free to choose", Author = "Milton Friedman", PublishYear = 1980 });
+            this._books.Add(new Book { Id = 1, Isbn = "10000001", Title = "The free market and it's enemies", Author = "Ludwig von Mises", PublishYear = 1951 });
+            this._books.Add(new Book { Id = 2, Isbn = "10000002", Title = "The road to serfdom", Author = "Friedrich A. von Hayek", PublishYear = 1944 });
+            this._books.Add(new Book { Id = 3, Isbn = "10000003", Title = "The fountainhead", Author = "Ayn Rand", PublishYear = 1943 });
+            this._books.Add(new Book { Id = 4, Isbn = "10000004", Title = "Free to choose", Author = "Milton Friedman", PublishYear = 1980 });
         }
 
         #endregion

@@ -1,4 +1,5 @@
-﻿using Crm.Models.Contracts.BookDomain;
+﻿using Crm.Models.Contracts.Base;
+using Crm.Models.Contracts.BookDomain;
 using Crm.Views.Contracts.Base;
 using Crm.Views.Contracts.Views;
 using System.ComponentModel;
@@ -10,14 +11,14 @@ namespace Crm.Views
     {
         #region FIELDS
 
-        private IBookViewModel _viewModel;
+        private IBaseViewModel _viewModel;
         private BindingList<IBookViewModel> _bindingList = new();
 
         #endregion
 
         #region PROPERTIES
 
-        public IBookViewModel ViewModel
+        public IBaseViewModel ViewModel
         {
             get => this._viewModel;
             set
@@ -55,24 +56,21 @@ namespace Crm.Views
             this.Show();
         }
 
+        public void UpdateBindings()
+        {
+            this._bindingList = new BindingList<IBookViewModel> { this.ViewModel as IBookViewModel };
+            this.lbBooks.DataSource = this._bindingList[0].Books;
+        }
+
         #endregion
 
         #region HELPERS
-
-        private void UpdateBindings()
-        {
-            this._bindingList = new BindingList<IBookViewModel>
-            {
-                this.ViewModel
-            };
-        }
 
         private void DoBindings()
         {
             this.UpdateBindings();
 
             // list box
-            this.lbBooks.DataSource = this._bindingList[0].Books;
             this.lbBooks.DisplayMember = "FriendlyOutput";
             this.lbBooks.ValueMember = "Isbn";
             this.lbBooks.DataBindings.Add("Visible", this._bindingList[0], "IsRead", true, DataSourceUpdateMode.OnPropertyChanged);
@@ -95,18 +93,17 @@ namespace Crm.Views
         {
             if (sender is not ListBox lb) return;
 
+            var vm = (IBookViewModel)this.ViewModel;
             if (lb.SelectedValue is IBook book)
             {
-                if (this.ViewModel.CurrentBook != null && this.ViewModel.CurrentBook == book) return;
-                this.ViewModel.CurrentBook = book;
+                if (vm.CurrentBook != null && vm.CurrentBook == book) return;
+                vm.CurrentBook = book;
             }
             else
             {
                 var isbn = lb.SelectedValue as string;
-                this.ViewModel.CurrentBook = this.ViewModel.Books.SingleOrDefault(b => b.Isbn.Equals(isbn));
+                vm.CurrentBook = vm.Books.SingleOrDefault(b => b.Isbn.Equals(isbn));
             }
-
-            this.UpdateBindings();
         }
 
         #endregion

@@ -66,14 +66,15 @@ namespace Crm.Views
         {
             if (child == null) return;
             if (this.Children.SingleOrDefault(c => c.GetType() == child.GetType()) == null) return;
-
-            ((Form)child).WindowState = FormWindowState.Maximized;
+            this.MinimizeChildren(child);
+            ((Form)child).WindowState = FormWindowState.Normal;
         }
 
-        public void MinimizeChildren()
+        public void MinimizeChildren(IBaseChildView childView = null)
         {
             foreach (var child in this.Children)
             {
+                if (childView != null && child == childView) continue;
                 ((Form)child).WindowState = FormWindowState.Minimized;
             }
         }

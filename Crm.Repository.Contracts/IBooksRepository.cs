@@ -4,9 +4,9 @@ namespace Crm.Repository.Contracts
 {
     public interface IBooksRepository
     {
-        IBook Get(string isbn);
+        IBook Get(int id);
         void UpdateOrCreate(IBook model);
-        void Delete(string isbn);
+        void Delete(int id);
         IEnumerable<IBook> GetAll();
     }
 }

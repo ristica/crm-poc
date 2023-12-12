@@ -5,10 +5,21 @@ namespace Crm.Models.BookDomain
 {
     public class Book : CommonBase, IBook
     {
+        private int _id;
         private string _isbn = string.Empty;
         private string _title = string.Empty;
         private string _author = string.Empty;
-        private int? _publishYear;
+        private int _publishYear;
+
+        public int Id
+        {
+            get => this._id;
+            set
+            {
+                this._id = value;
+                OnPropertyChanged();
+            }
+        }
 
         public string Isbn
         {
@@ -45,7 +56,7 @@ namespace Crm.Models.BookDomain
             }
         }
 
-        public int? PublishYear
+        public int PublishYear
         {
             get => this._publishYear;
             set

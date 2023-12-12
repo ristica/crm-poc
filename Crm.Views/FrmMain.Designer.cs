@@ -52,9 +52,9 @@
             panel1.Controls.Add(lblCurrentRole);
             panel1.Controls.Add(label1);
             panel1.Dock = DockStyle.Bottom;
-            panel1.Location = new Point(0, 488);
+            panel1.Location = new Point(0, 398);
             panel1.Name = "panel1";
-            panel1.Size = new Size(804, 23);
+            panel1.Size = new Size(821, 23);
             panel1.TabIndex = 2;
             // 
             // lblCurrentRole
@@ -82,7 +82,7 @@
             toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripDropDownButton1, toolStripDropDownButton2 });
             toolStrip1.Location = new Point(0, 0);
             toolStrip1.Name = "toolStrip1";
-            toolStrip1.Size = new Size(804, 25);
+            toolStrip1.Size = new Size(821, 25);
             toolStrip1.TabIndex = 4;
             toolStrip1.Text = "toolStrip1";
             // 
@@ -157,7 +157,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(804, 511);
+            ClientSize = new Size(821, 421);
             Controls.Add(toolStrip1);
             Controls.Add(panel1);
             IsMdiContainer = true;

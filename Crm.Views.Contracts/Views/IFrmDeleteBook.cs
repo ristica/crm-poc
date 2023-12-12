@@ -6,6 +6,5 @@ namespace Crm.Views.Contracts.Views
 {
     public interface IFrmDeleteBook : IBaseChildView, INotifyPropertyChanged
     {
-        IDeleteBookViewModel ViewModel { get; set; }
     }
 }

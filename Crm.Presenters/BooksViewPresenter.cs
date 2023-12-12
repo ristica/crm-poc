@@ -50,20 +50,25 @@ namespace Crm.Presenters
 
         public void Receive(object sender, EventArgs args, int messageId)
         {
-            if (messageId == (int)MessageType.RoleChangedMessage)
+            switch (messageId)
             {
-                if (args is not MenuRoleEventArgs roleEventArgs) return;
-
-                var role = roleEventArgs.NewRole;
-                if (string.IsNullOrEmpty(role)) return;
-
-                this._view.ViewModel.CurrentRole = role;
+                case (int)MessageType.RoleChangedMessage:
+                    if (args is not MenuRoleEventArgs roleEventArgs) return;
+                    var role = roleEventArgs.NewRole;
+                    if (string.IsNullOrEmpty(role)) return;
+                    this._view.ViewModel.CurrentRole = role;
+                    break;
+                case (int)MessageType.ReloadBooksMessage:
+                    ((IBookViewModel)this._view.ViewModel).Books = new ObservableCollection<IBook>(this._service.GetAll());
+                    this._view.UpdateBindings();
+                    break;
             }
         }
 
         public void Dispose()
         {
             this.MessageNotificationsHelper.Unsubscribe(this, (int)MessageType.RoleChangedMessage);
+            this.MessageNotificationsHelper.Unsubscribe(this, (int)MessageType.ReloadBooksMessage);
         }
 
         public void ShowView(IBaseView mdiContainerForm) => this._view.LoadChildView();
@@ -87,6 +92,7 @@ namespace Crm.Presenters
         private void SubscribeToNotifications()
         {
             this.MessageNotificationsHelper.Subscribe(this, (int)MessageType.RoleChangedMessage);
+            this.MessageNotificationsHelper.Subscribe(this, (int)MessageType.ReloadBooksMessage);
         }
 
         #endregion

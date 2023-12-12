@@ -50,9 +50,9 @@
             label1.Font = new Font("Segoe UI", 10F, FontStyle.Italic | FontStyle.Underline);
             label1.Location = new Point(20, 15);
             label1.Name = "label1";
-            label1.Size = new Size(92, 19);
+            label1.Size = new Size(98, 19);
             label1.TabIndex = 0;
-            label1.Text = "Books (READ)";
+            label1.Text = "Role => READ";
             // 
             // groupBox1
             // 
@@ -100,7 +100,7 @@
             txtYear.Location = new Point(20, 191);
             txtYear.Name = "txtYear";
             txtYear.ReadOnly = true;
-            txtYear.Size = new Size(325, 23);
+            txtYear.Size = new Size(150, 23);
             txtYear.TabIndex = 7;
             // 
             // txtAuthor
@@ -127,7 +127,7 @@
             txtIsbn.Location = new Point(18, 40);
             txtIsbn.Name = "txtIsbn";
             txtIsbn.ReadOnly = true;
-            txtIsbn.Size = new Size(325, 23);
+            txtIsbn.Size = new Size(150, 23);
             txtIsbn.TabIndex = 4;
             // 
             // label5
@@ -174,16 +174,14 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            AutoSize = true;
+            AutoSizeMode = AutoSizeMode.GrowAndShrink;
             ClientSize = new Size(800, 386);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Controls.Add(label1);
-            FormBorderStyle = FormBorderStyle.None;
             Name = "FrmBooks";
-            StartPosition = FormStartPosition.CenterParent;
+            StartPosition = FormStartPosition.Manual;
             Text = "Books";
-            WindowState = FormWindowState.Maximized;
             groupBox1.ResumeLayout(false);
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();

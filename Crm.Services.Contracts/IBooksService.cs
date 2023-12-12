@@ -4,9 +4,9 @@
     {
         void ValidateModelDataAnnotations(T model);
 
-        T Get(string isbn);
+        T Get(int id);
         void UpdateOrCreate(T model);
-        void Delete(string isbn);
+        void Delete(int id);
         IEnumerable<T> GetAll();
     }
 }

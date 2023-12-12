@@ -6,6 +6,6 @@ namespace Crm.Views.Contracts.Views
 {
     public interface IFrmBooks : IBaseChildView, INotifyPropertyChanged
     {
-        IBookViewModel ViewModel { get; set; }
+        void UpdateBindings();
     }
 }

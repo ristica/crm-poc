@@ -1,6 +1,9 @@
-﻿using Crm.Common.Contracts;
+﻿using System.Reflection;
+using Crm.Common.Contracts;
 using Crm.Common.Shared;
 using Crm.Dependencies.Contracts;
+using Crm.Models.Contracts.Base;
+using Crm.Models.Contracts.BookDomain;
 using Crm.Presenters.Base;
 using Crm.Presenters.Contracts;
 using Crm.Presenters.Contracts.Base;
@@ -56,32 +59,13 @@ namespace Crm.Presenters
                     var form = menuFormsEventArgs.NewForm;
                     if (string.IsNullOrEmpty(form)) return;
 
-                    IBaseChildView view = null;
-                    IBaseChildViewPresenter presenter;
-
-                    switch (menuFormsEventArgs.NewForm)
+                    var view = menuFormsEventArgs.NewForm switch
                     {
-                        case MenuFormsConstants.Books:
-                            presenter = DependencyContainer.Resolve<IBooksViewPresenter>();
-                            var exists = this._view.Children.SingleOrDefault(child => child.GetType() == presenter.GetView().GetType());
-                            if (exists == null)
-                            {
-                                presenter.SetCurrentRole(this._view.ViewModel.CurrentRole);
-                                this._view.Children.Add(presenter.GetView());
-                                view = presenter.GetView();
-                            }
-                            else
-                            {
-                                this._view.MaximizeChild(exists);
-                            }
-                            break;
-                        case MenuFormsConstants.AddBook:
-                            break;
-                        case MenuFormsConstants.DeleteBook:
-                            break;
-                        default:
-                            break;
-                    }
+                        MenuFormsConstants.Books => this.CreateOrLoadView(typeof(IBooksViewPresenter), typeof(IBookViewModel)),
+                        MenuFormsConstants.AddBook => this.CreateOrLoadView(typeof(IAddBookViewPresenter), typeof(IAddBookViewModel)),
+                        MenuFormsConstants.DeleteBook => this.CreateOrLoadView(typeof(IDeleteBookViewPresenter), typeof(IDeleteBookViewModel)),
+                        _ => null
+                    };
 
                     if (view == null) return;
 
@@ -108,6 +92,23 @@ namespace Crm.Presenters
         #endregion
 
         #region HELPERS
+
+        private IBaseChildView? CreateOrLoadView(Type presenter, Type viewModel)
+        {
+            var exists = this._view.Children.SingleOrDefault(child => child.ViewModel.GetType().GetInterface(viewModel.Name) != null);
+            if (exists == null)
+            {
+                this._view.MinimizeChildren();
+
+                var p = DependencyContainer.Resolve(presenter) as IBaseChildViewPresenter;
+                p.SetCurrentRole(this._view.ViewModel.CurrentRole);
+                this._view.Children.Add(p.GetView());
+                return p.GetView();
+            }
+
+            this._view.MaximizeChild(exists);
+            return null;
+        }
 
         protected sealed override void SubscribeToUserInterfaceEvents()
         {

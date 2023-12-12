@@ -17,7 +17,6 @@ namespace Crm.Presenters
 
         private readonly IFrmAddBook _view;
         private readonly IBooksService<IBook> _service;
-        private readonly IMessageNotificationsHelper _messageNotificationsHelper;
 
         #endregion
 
@@ -33,7 +32,6 @@ namespace Crm.Presenters
         {
             this._view = dependencyContainer.Resolve<IFrmAddBook>();
             this._service = dependencyContainer.Resolve<IBooksService<IBook>>();
-            this._messageNotificationsHelper = dependencyContainer.Resolve<IMessageNotificationsHelper>();
 
             this.SubscribeToUserInterfaceEvents();
             this.SubscribeToNotifications();
@@ -46,14 +44,29 @@ namespace Crm.Presenters
 
         public void Receive(object sender, EventArgs args, int messageId)
         {
-            if (messageId == (int)MessageType.RoleChangedMessage)
+            switch (messageId)
             {
-                //if (args is not RoleAndFormEventArgs roleEventArgs) return;
+                case (int)MessageType.RoleChangedMessage:
+                    if (args is not MenuRoleEventArgs roleEventArgs) return;
 
-                //var role = roleEventArgs.Next;
-                //if (string.IsNullOrEmpty(role)) return;
+                    var role = roleEventArgs.NewRole;
+                    if (string.IsNullOrEmpty(role)) return;
 
-                //this._view.ViewModel.CurrentRole = role;
+                    this._view.ViewModel.CurrentRole = role;
+                    break;
+                case (int)MessageType.AddBookMessage:
+                    if (args is not AddBookEventArgs bookEventArgs) return;
+
+                    this._service.UpdateOrCreate(bookEventArgs.NewBook);
+                    ((IAddBookViewModel)this._view.ViewModel).CurrentBook = DependencyContainer.Resolve<IBook>();
+                    ((IAddBookViewModel)this._view.ViewModel).CurrentBook.PublishYear = DateTime.Today.Year;
+
+                    this.MessageNotificationsHelper.Publish(
+                        this, 
+                        EventArgs.Empty, 
+                        (int)MessageType.ReloadBooksMessage);
+
+                    break;
             }
         }
 
@@ -71,7 +84,8 @@ namespace Crm.Presenters
 
         public void Dispose()
         {
-            this._messageNotificationsHelper.Unsubscribe(this, (int)MessageType.RoleChangedMessage);
+            this.MessageNotificationsHelper.Unsubscribe(this, (int)MessageType.RoleChangedMessage);
+            this.MessageNotificationsHelper.Unsubscribe(this, (int)MessageType.AddBookMessage);
         }
 
         #endregion
@@ -85,7 +99,8 @@ namespace Crm.Presenters
 
         private void SubscribeToNotifications()
         {
-            this._messageNotificationsHelper.Subscribe(this, (int)MessageType.RoleChangedMessage);
+            this.MessageNotificationsHelper.Subscribe(this, (int)MessageType.RoleChangedMessage);
+            this.MessageNotificationsHelper.Subscribe(this, (int)MessageType.AddBookMessage);
         }
 
         #endregion

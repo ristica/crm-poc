@@ -6,20 +6,20 @@ namespace Crm.Repository
 {
     public class BooksRepository : IBooksRepository
     {
-        public IBook Get(string isbn)
+        public IBook Get(int id)
         {
-            return Database.Instance.GetBookByIsbn(isbn);
+            return Database.Instance.GetBookById(id);
         }
 
         public void UpdateOrCreate(IBook model)
         {
-            if (string.IsNullOrEmpty(model.Isbn)) this.Create(model);
+            if (model.Id < 1) this.Create(model);
             else this.Update(model);
         }
 
-        public void Delete(string isbn)
+        public void Delete(int id)
         {
-            Database.Instance.DeleteBook(isbn);
+            Database.Instance.DeleteBook(id);
         }
 
         public IEnumerable<IBook> GetAll()

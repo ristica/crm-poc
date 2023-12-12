@@ -3,6 +3,8 @@
     public enum MessageType
     {
         RoleChangedMessage,
-        FormChangedMessage
+        FormChangedMessage,
+        AddBookMessage,
+        ReloadBooksMessage
     }
 }

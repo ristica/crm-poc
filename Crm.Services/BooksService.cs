@@ -18,9 +18,9 @@ namespace Crm.Services
 
         }
 
-        public IBook Get(string isbn)
+        public IBook Get(int id)
         {
-            return this._booksRepository.Get(isbn);
+            return this._booksRepository.Get(id);
         }
 
         public void UpdateOrCreate(IBook model)
@@ -28,9 +28,9 @@ namespace Crm.Services
             this._booksRepository.UpdateOrCreate(model);
         }
 
-        public void Delete(string isbn)
+        public void Delete(int id)
         {
-            this._booksRepository.Delete(isbn);
+            this._booksRepository.Delete(id);
         }
 
         public IEnumerable<IBook> GetAll()
