@@ -2,7 +2,6 @@
 using Crm.Common.NotificationBase;
 using System.Drawing;
 using Crm.Dependencies.Contracts;
-using Crm.Common.Shared;
 
 namespace Crm.Models.Base
 {

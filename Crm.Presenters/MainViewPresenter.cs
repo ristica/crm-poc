@@ -1,8 +1,6 @@
-﻿using System.Reflection;
-using Crm.Common.Contracts;
+﻿using Crm.Common.Contracts;
 using Crm.Common.Shared;
 using Crm.Dependencies.Contracts;
-using Crm.Models.Contracts.Base;
 using Crm.Models.Contracts.BookDomain;
 using Crm.Presenters.Base;
 using Crm.Presenters.Contracts;

@@ -1,19 +1,17 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using Crm.Common.Shared;
+﻿using Crm.Common.Shared;
 using Crm.Models.Contracts.Base;
 using Crm.Models.Contracts.BookDomain;
+using Crm.Views.Base;
 using Crm.Views.Contracts.Base;
 using Crm.Views.Contracts.Views;
 
 namespace Crm.Views
 {
-    public partial class FrmAddBook : Form, IFrmAddBook
+    public partial class FrmAddBook : FrmBase<IAddBookViewModel>, IFrmAddBook
     {
         #region FIELDS
 
         private IBaseViewModel _viewModel;
-        private BindingList<IAddBookViewModel> _bindingList = new();
 
         #endregion
 
@@ -38,11 +36,6 @@ namespace Crm.Views
         public FrmAddBook()
         {
             InitializeComponent();
-
-            this._bindingList.AllowEdit = true;
-            this._bindingList.AllowNew = true;
-            this._bindingList.AllowRemove = true;
-            this._bindingList.RaiseListChangedEvents = true;
         }
 
         #endregion
@@ -51,10 +44,71 @@ namespace Crm.Views
 
         public void LoadChildView()
         {
-            this.DoBindings();
-            this.MdiParent = this.MdiContainerForm as Form;
-            this.Dock = DockStyle.Fill;
-            this.Show();
+            base.DoLoadChildView(this.MdiContainerForm as Form);
+        }
+        protected override void DoBindings()
+        {
+            this.UpdateBindings();
+
+            // button
+            this.btnSave.DataBindings.Add(
+                BindingProperties.Command,
+                this.BindingList[0],
+                nameof(IAddBookViewModel.AddNewBookCommand),
+                true,
+                DataSourceUpdateMode.OnPropertyChanged);
+
+            // text boxes
+            this.txtIsbn.DataBindings.Add(
+                BindingProperties.Visible,
+                this.BindingList[0],
+                nameof(IAddBookViewModel.IsReadWrite),
+                true,
+                DataSourceUpdateMode.OnPropertyChanged);
+            this.txtIsbn.DataBindings.Add(
+                BindingProperties.Text,
+                this.BindingList[0],
+                "CurrentBook.Isbn",
+                true,
+                DataSourceUpdateMode.OnPropertyChanged);
+
+            this.txtTitle.DataBindings.Add(
+                BindingProperties.Visible,
+                this.BindingList[0],
+                nameof(IAddBookViewModel.IsReadWrite),
+                true, DataSourceUpdateMode.OnPropertyChanged);
+            this.txtTitle.DataBindings.Add(
+                BindingProperties.Text,
+                this.BindingList[0],
+                "CurrentBook.Title",
+                true,
+                DataSourceUpdateMode.OnPropertyChanged);
+
+            this.txtAuthor.DataBindings.Add(
+                BindingProperties.Visible,
+                this.BindingList[0],
+                nameof(IAddBookViewModel.IsReadWrite),
+                true,
+                DataSourceUpdateMode.OnPropertyChanged);
+            this.txtAuthor.DataBindings.Add(
+                BindingProperties.Text,
+                this.BindingList[0],
+                "CurrentBook.Author",
+                true,
+                DataSourceUpdateMode.OnPropertyChanged);
+
+            this.txtYear.DataBindings.Add(
+                BindingProperties.Visible,
+                this.BindingList[0],
+                nameof(IAddBookViewModel.IsReadWrite),
+                true,
+                DataSourceUpdateMode.OnPropertyChanged);
+            this.txtYear.DataBindings.Add(
+                BindingProperties.Text,
+                this.BindingList[0],
+                "CurrentBook.PublishYear",
+                true,
+                DataSourceUpdateMode.OnPropertyChanged);
         }
 
         #endregion
@@ -63,94 +117,9 @@ namespace Crm.Views
 
         private void UpdateBindings()
         {
-            this._bindingList = new() { (IAddBookViewModel)this.ViewModel };
-        }
-
-        private void DoBindings()
-        {
-            this.UpdateBindings();
-
-            // button
-            this.btnSave.DataBindings.Add(
-                BindingProperties.Command, 
-                this._bindingList[0], 
-                nameof(IAddBookViewModel.AddNewBookCommand),
-                true,
-                DataSourceUpdateMode.OnPropertyChanged);
-
-            // text boxes
-            this.txtIsbn.DataBindings.Add(
-                BindingProperties.Visible, 
-                this._bindingList[0], 
-                nameof(IAddBookViewModel.IsReadWrite), 
-                true, 
-                DataSourceUpdateMode.OnPropertyChanged);
-            this.txtIsbn.DataBindings.Add(
-                BindingProperties.Text, 
-                this._bindingList[0],
-                "CurrentBook.Isbn",
-                true, 
-                DataSourceUpdateMode.OnPropertyChanged);
-
-            this.txtTitle.DataBindings.Add(
-                BindingProperties.Visible, 
-                this._bindingList[0],
-                nameof(IAddBookViewModel.IsReadWrite),
-                true, DataSourceUpdateMode.OnPropertyChanged);
-            this.txtTitle.DataBindings.Add(
-                BindingProperties.Text,
-                this._bindingList[0],
-                "CurrentBook.Title",
-                true, 
-                DataSourceUpdateMode.OnPropertyChanged);
-
-            this.txtAuthor.DataBindings.Add(
-                BindingProperties.Visible,
-                this._bindingList[0], 
-                nameof(IAddBookViewModel.IsReadWrite), 
-                true, 
-                DataSourceUpdateMode.OnPropertyChanged);
-            this.txtAuthor.DataBindings.Add(
-                BindingProperties.Text,
-                this._bindingList[0],
-                "CurrentBook.Author",
-                true,
-                DataSourceUpdateMode.OnPropertyChanged);
-
-            this.txtYear.DataBindings.Add(
-                BindingProperties.Visible, 
-                this._bindingList[0], 
-                nameof(IAddBookViewModel.IsReadWrite),
-                true,
-                DataSourceUpdateMode.OnPropertyChanged);
-            this.txtYear.DataBindings.Add(
-                BindingProperties.Text,
-                this._bindingList[0],
-                "CurrentBook.PublishYear", 
-                true, 
-                DataSourceUpdateMode.OnPropertyChanged);
+            this.BindingList = new() { (IAddBookViewModel)this.ViewModel };
         }
 
         #endregion
-
-        #region INotifyPropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected bool SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
-            field = value;
-            OnPropertyChanged(propertyName);
-            return true;
-        }
-
-        #endregion
-
     }
 }

@@ -1,19 +1,17 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using Crm.Common.Shared;
+﻿using Crm.Common.Shared;
 using Crm.Models.Contracts.Base;
 using Crm.Models.Contracts.BookDomain;
+using Crm.Views.Base;
 using Crm.Views.Contracts.Base;
 using Crm.Views.Contracts.Views;
 
 namespace Crm.Views
 {
-    public partial class FrmDeleteBook : Form, IFrmDeleteBook
+    public partial class FrmDeleteBook : FrmBase<IDeleteBookViewModel>, IFrmDeleteBook
     {
         #region FIELDS
 
         private IBaseViewModel _viewModel;
-        private BindingList<IDeleteBookViewModel> _bindingList = new();
 
         #endregion
 
@@ -39,10 +37,10 @@ namespace Crm.Views
         {
             InitializeComponent();
 
-            this._bindingList.AllowEdit = true;
-            this._bindingList.AllowNew = true;
-            this._bindingList.AllowRemove = true;
-            this._bindingList.RaiseListChangedEvents = true;
+            this.BindingList.AllowEdit = true;
+            this.BindingList.AllowNew = true;
+            this.BindingList.AllowRemove = true;
+            this.BindingList.RaiseListChangedEvents = true;
         }
 
         #endregion
@@ -51,22 +49,16 @@ namespace Crm.Views
 
         public void LoadChildView()
         {
-            this.DoBindings();
-            this.MdiParent = this.MdiContainerForm as Form;
-            this.Dock = DockStyle.Fill;
-            this.Show();
+            base.DoLoadChildView(this.MdiContainerForm as Form);
         }
+
         public void UpdateBindings()
         {
-            this._bindingList = new() { (IDeleteBookViewModel)this.ViewModel };
-            this.cbBooks.DataSource = this._bindingList[0].Books;
+            this.BindingList = new() { (IDeleteBookViewModel)this.ViewModel };
+            this.cbBooks.DataSource = this.BindingList[0].Books;
         }
 
-        #endregion
-
-        #region HELPERS
-
-        private void DoBindings()
+        protected override void DoBindings()
         {
             this.UpdateBindings();
 
@@ -75,7 +67,7 @@ namespace Crm.Views
             this.cbBooks.ValueMember = nameof(IBook.Id);
             this.cbBooks.DataBindings.Add(
                 BindingProperties.Visible,
-                this._bindingList[0],
+                this.BindingList[0],
                 nameof(IDeleteBookViewModel.IsReadWriteDelete),
                 true,
                 DataSourceUpdateMode.OnPropertyChanged);
@@ -83,11 +75,15 @@ namespace Crm.Views
             // button
             this.btnDelete.DataBindings.Add(
                 BindingProperties.Command,
-                this._bindingList[0],
+                this.BindingList[0],
                 nameof(IDeleteBookViewModel.DeleteBookCommand),
                 true,
                 DataSourceUpdateMode.OnPropertyChanged);
         }
+
+        #endregion
+
+        #region HELPERS
 
         private void BookToDeleteOnSelected(object sender, EventArgs e)
         {
@@ -96,25 +92,6 @@ namespace Crm.Views
             var vm = (IDeleteBookViewModel)this.ViewModel;
             if (cb.SelectedItem == null) return;
             vm.CurrentBook = cb.SelectedItem as IBook;
-        }
-
-        #endregion
-
-        #region INotifyPropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected bool SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
-            field = value;
-            OnPropertyChanged(propertyName);
-            return true;
         }
 
         #endregion
