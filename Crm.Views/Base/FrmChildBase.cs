@@ -3,11 +3,11 @@ using System.Runtime.CompilerServices;
 
 namespace Crm.Views.Base
 {
-    public abstract class FrmBase<T> : Form
+    public abstract class FrmChildBase<T> : Form
     {
         protected BindingList<T> BindingList = new();
 
-        protected FrmBase()
+        protected FrmChildBase()
         {
             this.BindingList.AllowEdit = true;
             this.BindingList.AllowNew = true;
