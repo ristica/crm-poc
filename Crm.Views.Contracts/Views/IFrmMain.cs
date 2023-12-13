@@ -8,6 +8,6 @@ namespace Crm.Views.Contracts.Views
         IMainViewModel ViewModel { get; set; }
         List<IBaseChildView> Children { get; set; }
         void MaximizeChild(IBaseChildView? child);
-        void MinimizeChildren(IBaseChildView childView = null);
+        void MinimizeChildren(IBaseChildView? childView = null);
     }
 }

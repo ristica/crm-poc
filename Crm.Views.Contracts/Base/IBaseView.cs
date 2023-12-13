@@ -5,7 +5,7 @@
         event EventHandler FormLoadEventRaised;
         event EventHandler FormCloseEventRaised;
 
-        string WindowTitle { get; set; }
+        string? WindowTitle { get; set; }
         void ShowView();
     }
 }

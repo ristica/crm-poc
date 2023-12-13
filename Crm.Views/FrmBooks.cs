@@ -58,7 +58,7 @@ namespace Crm.Views
 
         public void UpdateBindings()
         {
-            this._bindingList = new BindingList<IBookViewModel> { this.ViewModel as IBookViewModel };
+            this._bindingList = new BindingList<IBookViewModel> { (IBookViewModel)this.ViewModel };
             this.lbBooks.DataSource = this._bindingList[0].Books;
         }
 
@@ -71,22 +71,66 @@ namespace Crm.Views
             this.UpdateBindings();
 
             // list box
-            this.lbBooks.DisplayMember = "FriendlyOutput";
-            this.lbBooks.ValueMember = "Id";
-            this.lbBooks.DataBindings.Add("Visible", this._bindingList[0], "IsRead", true, DataSourceUpdateMode.OnPropertyChanged);
+            this.lbBooks.DisplayMember = nameof(IBook.FriendlyOutput);
+            this.lbBooks.ValueMember = nameof(IBook.Id);
+            this.lbBooks.DataBindings.Add(
+                "Visible",
+                this._bindingList[0], 
+                nameof(IBookViewModel.IsRead), 
+                true, 
+                DataSourceUpdateMode.OnPropertyChanged);
 
             // text boxes
-            this.txtIsbn.DataBindings.Add("Visible", this._bindingList[0], "IsRead", true, DataSourceUpdateMode.OnPropertyChanged);
-            this.txtIsbn.DataBindings.Add("Text", this._bindingList[0], "CurrentBook.Isbn", true, DataSourceUpdateMode.OnPropertyChanged);
+            this.txtIsbn.DataBindings.Add(
+                "Visible",
+                this._bindingList[0],
+                nameof(IBookViewModel.IsRead),
+                true,
+                DataSourceUpdateMode.OnPropertyChanged);
+            this.txtIsbn.DataBindings.Add(
+                "Text", 
+                this._bindingList[0], 
+                "CurrentBook.Isbn", 
+                true,
+                DataSourceUpdateMode.OnPropertyChanged);
 
-            this.txtTitle.DataBindings.Add("Visible", this._bindingList[0], "IsRead", true, DataSourceUpdateMode.OnPropertyChanged);
-            this.txtTitle.DataBindings.Add("Text", this._bindingList[0], "CurrentBook.Title", true, DataSourceUpdateMode.OnPropertyChanged);
+            this.txtTitle.DataBindings.Add(
+                "Visible",
+                this._bindingList[0], 
+                nameof(IBookViewModel.IsRead), 
+                true,
+                DataSourceUpdateMode.OnPropertyChanged);
+            this.txtTitle.DataBindings.Add(
+                "Text", 
+                this._bindingList[0], 
+                "CurrentBook.Title",
+                true, DataSourceUpdateMode.OnPropertyChanged);
 
-            this.txtAuthor.DataBindings.Add("Visible", this._bindingList[0], "IsRead", true, DataSourceUpdateMode.OnPropertyChanged);
-            this.txtAuthor.DataBindings.Add("Text", this._bindingList[0], "CurrentBook.Author", true, DataSourceUpdateMode.OnPropertyChanged);
+            this.txtAuthor.DataBindings.Add(
+                "Visible", 
+                this._bindingList[0],
+                nameof(IBookViewModel.IsRead),
+                true,
+                DataSourceUpdateMode.OnPropertyChanged);
+            this.txtAuthor.DataBindings.Add(
+                "Text", 
+                this._bindingList[0], 
+                "CurrentBook.Author", 
+                true, 
+                DataSourceUpdateMode.OnPropertyChanged);
 
-            this.txtYear.DataBindings.Add("Visible", this._bindingList[0], "IsRead", true, DataSourceUpdateMode.OnPropertyChanged);
-            this.txtYear.DataBindings.Add("Text", this._bindingList[0], "CurrentBook.PublishYear", true, DataSourceUpdateMode.OnPropertyChanged);
+            this.txtYear.DataBindings.Add(
+                "Visible", 
+                this._bindingList[0],
+                nameof(IBookViewModel.IsRead), 
+                true,
+                DataSourceUpdateMode.OnPropertyChanged);
+            this.txtYear.DataBindings.Add(
+                "Text",
+                this._bindingList[0], 
+                "CurrentBook.PublishYear", 
+                true, 
+                DataSourceUpdateMode.OnPropertyChanged);
         }
 
         private void CurrentBookOnChanged(object sender, EventArgs e)

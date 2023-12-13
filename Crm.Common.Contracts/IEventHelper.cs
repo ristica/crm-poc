@@ -4,7 +4,7 @@
     {
         void RaiseEvent(
             object objectRaisingEvent,
-            EventHandler eventHandlerRaised,
+            EventHandler? eventHandlerRaised,
             EventArgs eventArgs);
     }
 }

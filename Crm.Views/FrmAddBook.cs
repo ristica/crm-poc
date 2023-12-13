@@ -62,7 +62,7 @@ namespace Crm.Views
 
         private void UpdateBindings()
         {
-            this._bindingList = new() { this.ViewModel as IAddBookViewModel };
+            this._bindingList = new() { (IAddBookViewModel)this.ViewModel };
         }
 
         private void DoBindings()

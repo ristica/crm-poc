@@ -6,7 +6,7 @@ namespace Crm.Common
     {
         public void RaiseEvent(
             object objectRaisingEvent,
-            EventHandler eventHandlerRaised,
+            EventHandler? eventHandlerRaised,
             EventArgs eventArgs)
         {
             eventHandlerRaised?.Invoke(objectRaisingEvent, eventArgs);

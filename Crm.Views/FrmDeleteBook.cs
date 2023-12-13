@@ -57,7 +57,7 @@ namespace Crm.Views
         }
         public void UpdateBindings()
         {
-            this._bindingList = new() { this.ViewModel as IDeleteBookViewModel };
+            this._bindingList = new() { (IDeleteBookViewModel)this.ViewModel };
             this.cbBooks.DataSource = this._bindingList[0].Books;
         }
 
@@ -70,8 +70,8 @@ namespace Crm.Views
             this.UpdateBindings();
 
             // combo box
-            this.cbBooks.DisplayMember = "Title";
-            this.cbBooks.ValueMember = "Id";
+            this.cbBooks.DisplayMember = nameof(IBook.Title);
+            this.cbBooks.ValueMember = nameof(IBook.Id);
             this.cbBooks.DataBindings.Add(
                 "Visible",
                 this._bindingList[0],
