@@ -98,13 +98,13 @@ namespace Crm.Views
 
             // status bar
             this.lblCurrentRole.DataBindings.Add(
-                "Text",
+                BindingProperties.Text,
                 this._bindingList[0], 
                 nameof(IMainViewModel.CurrentRole), 
                 true,
                 DataSourceUpdateMode.OnPropertyChanged);
             this.lblCurrentRole.DataBindings.Add(
-                "ForeColor",
+                BindingProperties.ForeColor,
                 this._bindingList[0],
                 nameof(IMainViewModel.CurrentRoleTextColor), 
                 true,
@@ -112,24 +112,24 @@ namespace Crm.Views
 
             // menu role
             this.menuRole_No.DataBindings.Add(
-                "Command",
+                BindingProperties.Command,
                 this._bindingList[0],
                 nameof(IMainViewModel.RoleNoCommand), 
                 true, DataSourceUpdateMode.OnPropertyChanged);
             this.menuRole_Read.DataBindings.Add(
-                "Command", 
+                BindingProperties.Command, 
                 this._bindingList[0],
                 nameof(IMainViewModel.RoleReadCommand), 
                 true, 
                 DataSourceUpdateMode.OnPropertyChanged);
             this.menuRole_ReadWrite.DataBindings.Add(
-                "Command", 
+                BindingProperties.Command, 
                 this._bindingList[0],
                 nameof(IMainViewModel.RoleReadWriteCommand), 
                 true, 
                 DataSourceUpdateMode.OnPropertyChanged);
             this.menuRole_ReadWriteDelete.DataBindings.Add(
-                "Command", 
+                BindingProperties.Command, 
                 this._bindingList[0],
                 nameof(IMainViewModel.RoleReadWriteDeleteCommand), 
                 true,
@@ -137,19 +137,19 @@ namespace Crm.Views
 
             // menu forms
             this.menuForms_Read.DataBindings.Add(
-                "Command",
+                BindingProperties.Command,
                 this._bindingList[0],
                 nameof(IMainViewModel.OpenReadFormCommand), 
                 true,
                 DataSourceUpdateMode.OnPropertyChanged);
             this.menuForms_ReadWrite.DataBindings.Add(
-                "Command",
+                BindingProperties.Command,
                 this._bindingList[0],
                 nameof(IMainViewModel.OpenReadWriteFormCommand), 
                 true, 
                 DataSourceUpdateMode.OnPropertyChanged);
             this.menuForms_ReadWriteDelete.DataBindings.Add(
-                "Command",
+                BindingProperties.Command,
                 this._bindingList[0],
                 nameof(IMainViewModel.OpenReadWriteDeleteFormCommand), 
                 true,

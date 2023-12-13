@@ -1,4 +1,5 @@
-﻿using Crm.Models.Contracts.Base;
+﻿using Crm.Common.Shared;
+using Crm.Models.Contracts.Base;
 using Crm.Models.Contracts.BookDomain;
 using Crm.Views.Contracts.Base;
 using Crm.Views.Contracts.Views;
@@ -74,7 +75,7 @@ namespace Crm.Views
             this.lbBooks.DisplayMember = nameof(IBook.FriendlyOutput);
             this.lbBooks.ValueMember = nameof(IBook.Id);
             this.lbBooks.DataBindings.Add(
-                "Visible",
+                BindingProperties.Visible,
                 this._bindingList[0], 
                 nameof(IBookViewModel.IsRead), 
                 true, 
@@ -82,51 +83,51 @@ namespace Crm.Views
 
             // text boxes
             this.txtIsbn.DataBindings.Add(
-                "Visible",
+                BindingProperties.Visible,
                 this._bindingList[0],
                 nameof(IBookViewModel.IsRead),
                 true,
                 DataSourceUpdateMode.OnPropertyChanged);
             this.txtIsbn.DataBindings.Add(
-                "Text", 
+                BindingProperties.Text, 
                 this._bindingList[0], 
                 "CurrentBook.Isbn", 
                 true,
                 DataSourceUpdateMode.OnPropertyChanged);
 
             this.txtTitle.DataBindings.Add(
-                "Visible",
+                BindingProperties.Visible,
                 this._bindingList[0], 
                 nameof(IBookViewModel.IsRead), 
                 true,
                 DataSourceUpdateMode.OnPropertyChanged);
             this.txtTitle.DataBindings.Add(
-                "Text", 
+                BindingProperties.Text, 
                 this._bindingList[0], 
                 "CurrentBook.Title",
                 true, DataSourceUpdateMode.OnPropertyChanged);
 
             this.txtAuthor.DataBindings.Add(
-                "Visible", 
+                BindingProperties.Visible, 
                 this._bindingList[0],
                 nameof(IBookViewModel.IsRead),
                 true,
                 DataSourceUpdateMode.OnPropertyChanged);
             this.txtAuthor.DataBindings.Add(
-                "Text", 
+                BindingProperties.Text, 
                 this._bindingList[0], 
                 "CurrentBook.Author", 
                 true, 
                 DataSourceUpdateMode.OnPropertyChanged);
 
             this.txtYear.DataBindings.Add(
-                "Visible", 
+                BindingProperties.Visible, 
                 this._bindingList[0],
                 nameof(IBookViewModel.IsRead), 
                 true,
                 DataSourceUpdateMode.OnPropertyChanged);
             this.txtYear.DataBindings.Add(
-                "Text",
+                BindingProperties.Text,
                 this._bindingList[0], 
                 "CurrentBook.PublishYear", 
                 true, 

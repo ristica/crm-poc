@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Crm.Common.Shared;
 using Crm.Models.Contracts.Base;
 using Crm.Models.Contracts.BookDomain;
 using Crm.Views.Contracts.Base;
@@ -73,7 +74,7 @@ namespace Crm.Views
             this.cbBooks.DisplayMember = nameof(IBook.Title);
             this.cbBooks.ValueMember = nameof(IBook.Id);
             this.cbBooks.DataBindings.Add(
-                "Visible",
+                BindingProperties.Visible,
                 this._bindingList[0],
                 nameof(IDeleteBookViewModel.IsReadWriteDelete),
                 true,
@@ -81,7 +82,7 @@ namespace Crm.Views
 
             // button
             this.btnDelete.DataBindings.Add(
-                "Command",
+                BindingProperties.Command,
                 this._bindingList[0],
                 nameof(IDeleteBookViewModel.DeleteBookCommand),
                 true,
