@@ -1,13 +1,14 @@
 ﻿using Crm.Common.Shared;
 using Crm.Models.Contracts.Base;
 using Crm.Models.Contracts.BookDomain;
-using Crm.Views.Base;
 using Crm.Views.Contracts.Base;
 using Crm.Views.Contracts.Views;
+using System.ComponentModel;
+using Crm.Views.Base;
 
 namespace Crm.Views
 {
-    public partial class FrmChildAddBook : FrmChildBase<IAddBookViewModel>, IFrmAddBook
+    public partial class FrmBooks : FrmChildBase<IBookViewModel>, IFrmBooks
     {
         #region FIELDS
 
@@ -33,7 +34,7 @@ namespace Crm.Views
 
         #region C-TOR
 
-        public FrmChildAddBook()
+        public FrmBooks()
         {
             InitializeComponent();
         }
@@ -46,15 +47,24 @@ namespace Crm.Views
         {
             base.DoLoadChildView(this.MdiContainerForm as Form);
         }
+
+        public void UpdateBindings()
+        {
+            this.BindingList = new BindingList<IBookViewModel> { (IBookViewModel)this.ViewModel };
+            this.lbBooks.DataSource = this.BindingList[0].Books;
+        }
+
         protected override void DoBindings()
         {
             this.UpdateBindings();
 
-            // button
-            this.btnSave.DataBindings.Add(
-                BindingProperties.Command,
+            // list box
+            this.lbBooks.DisplayMember = nameof(IBook.FriendlyOutput);
+            this.lbBooks.ValueMember = nameof(IBook.Id);
+            this.lbBooks.DataBindings.Add(
+                BindingProperties.Visible,
                 this.BindingList[0],
-                nameof(IAddBookViewModel.AddNewBookCommand),
+                nameof(IBookViewModel.IsRead),
                 true,
                 DataSourceUpdateMode.OnPropertyChanged);
 
@@ -62,7 +72,7 @@ namespace Crm.Views
             this.txtIsbn.DataBindings.Add(
                 BindingProperties.Visible,
                 this.BindingList[0],
-                nameof(IAddBookViewModel.IsReadWrite),
+                nameof(IBookViewModel.IsRead),
                 true,
                 DataSourceUpdateMode.OnPropertyChanged);
             this.txtIsbn.DataBindings.Add(
@@ -75,19 +85,19 @@ namespace Crm.Views
             this.txtTitle.DataBindings.Add(
                 BindingProperties.Visible,
                 this.BindingList[0],
-                nameof(IAddBookViewModel.IsReadWrite),
-                true, DataSourceUpdateMode.OnPropertyChanged);
+                nameof(IBookViewModel.IsRead),
+                true,
+                DataSourceUpdateMode.OnPropertyChanged);
             this.txtTitle.DataBindings.Add(
                 BindingProperties.Text,
                 this.BindingList[0],
                 "CurrentBook.Title",
-                true,
-                DataSourceUpdateMode.OnPropertyChanged);
+                true, DataSourceUpdateMode.OnPropertyChanged);
 
             this.txtAuthor.DataBindings.Add(
                 BindingProperties.Visible,
                 this.BindingList[0],
-                nameof(IAddBookViewModel.IsReadWrite),
+                nameof(IBookViewModel.IsRead),
                 true,
                 DataSourceUpdateMode.OnPropertyChanged);
             this.txtAuthor.DataBindings.Add(
@@ -100,7 +110,7 @@ namespace Crm.Views
             this.txtYear.DataBindings.Add(
                 BindingProperties.Visible,
                 this.BindingList[0],
-                nameof(IAddBookViewModel.IsReadWrite),
+                nameof(IBookViewModel.IsRead),
                 true,
                 DataSourceUpdateMode.OnPropertyChanged);
             this.txtYear.DataBindings.Add(
@@ -115,9 +125,13 @@ namespace Crm.Views
 
         #region HELPERS
 
-        private void UpdateBindings()
+        private void CurrentBookOnChanged(object sender, EventArgs e)
         {
-            this.BindingList = new() { (IAddBookViewModel)this.ViewModel };
+            if (sender is not ListBox lb) return;
+
+            var vm = (IBookViewModel)this.ViewModel;
+            if (lb.SelectedItem == null) return;
+            vm.CurrentBook = lb.SelectedItem as IBook;
         }
 
         #endregion

@@ -1,6 +1,6 @@
 ﻿namespace Crm.Views
 {
-    partial class FrmChildBooks
+    partial class FrmAddBook
     {
         /// <summary>
         /// Required designer variable.
@@ -29,9 +29,8 @@
         private void InitializeComponent()
         {
             label1 = new Label();
-            groupBox1 = new GroupBox();
-            lbBooks = new ListBox();
             groupBox2 = new GroupBox();
+            btnSave = new Button();
             txtYear = new TextBox();
             txtAuthor = new TextBox();
             txtTitle = new TextBox();
@@ -40,7 +39,6 @@
             label4 = new Label();
             label3 = new Label();
             label2 = new Label();
-            groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             SuspendLayout();
             // 
@@ -50,34 +48,13 @@
             label1.Font = new Font("Segoe UI", 10F, FontStyle.Italic | FontStyle.Underline);
             label1.Location = new Point(20, 15);
             label1.Name = "label1";
-            label1.Size = new Size(98, 19);
-            label1.TabIndex = 0;
-            label1.Text = "Role => READ";
-            // 
-            // groupBox1
-            // 
-            groupBox1.Controls.Add(lbBooks);
-            groupBox1.Font = new Font("Segoe UI", 10F);
-            groupBox1.Location = new Point(20, 55);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(362, 236);
-            groupBox1.TabIndex = 1;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "Books";
-            // 
-            // lbBooks
-            // 
-            lbBooks.Font = new Font("Segoe UI", 9F);
-            lbBooks.FormattingEnabled = true;
-            lbBooks.ItemHeight = 15;
-            lbBooks.Location = new Point(28, 26);
-            lbBooks.Name = "lbBooks";
-            lbBooks.Size = new Size(306, 184);
-            lbBooks.TabIndex = 0;
-            lbBooks.SelectedIndexChanged += CurrentBookOnChanged;
+            label1.Size = new Size(103, 19);
+            label1.TabIndex = 1;
+            label1.Text = "Role => WRITE";
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(btnSave);
             groupBox2.Controls.Add(txtYear);
             groupBox2.Controls.Add(txtAuthor);
             groupBox2.Controls.Add(txtTitle);
@@ -87,46 +64,51 @@
             groupBox2.Controls.Add(label3);
             groupBox2.Controls.Add(label2);
             groupBox2.Font = new Font("Segoe UI", 10F);
-            groupBox2.Location = new Point(414, 55);
+            groupBox2.Location = new Point(20, 55);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(362, 236);
-            groupBox2.TabIndex = 2;
+            groupBox2.Size = new Size(419, 334);
+            groupBox2.TabIndex = 3;
             groupBox2.TabStop = false;
-            groupBox2.Text = "Details";
+            groupBox2.Text = "New book";
+            // 
+            // btnSave
+            // 
+            btnSave.Location = new Point(233, 264);
+            btnSave.Name = "btnSave";
+            btnSave.Size = new Size(140, 26);
+            btnSave.TabIndex = 8;
+            btnSave.Text = "Save";
+            btnSave.UseVisualStyleBackColor = true;
             // 
             // txtYear
             // 
             txtYear.Font = new Font("Segoe UI", 9F);
-            txtYear.Location = new Point(20, 191);
+            txtYear.Location = new Point(48, 205);
             txtYear.Name = "txtYear";
-            txtYear.ReadOnly = true;
             txtYear.Size = new Size(150, 23);
             txtYear.TabIndex = 7;
             // 
             // txtAuthor
             // 
             txtAuthor.Font = new Font("Segoe UI", 9F);
-            txtAuthor.Location = new Point(20, 142);
+            txtAuthor.Location = new Point(48, 156);
             txtAuthor.Name = "txtAuthor";
-            txtAuthor.ReadOnly = true;
             txtAuthor.Size = new Size(325, 23);
             txtAuthor.TabIndex = 6;
             // 
             // txtTitle
             // 
             txtTitle.Font = new Font("Segoe UI", 9F);
-            txtTitle.Location = new Point(20, 91);
+            txtTitle.Location = new Point(48, 105);
             txtTitle.Name = "txtTitle";
-            txtTitle.ReadOnly = true;
             txtTitle.Size = new Size(325, 23);
             txtTitle.TabIndex = 5;
             // 
             // txtIsbn
             // 
             txtIsbn.Font = new Font("Segoe UI", 9F);
-            txtIsbn.Location = new Point(18, 40);
+            txtIsbn.Location = new Point(46, 54);
             txtIsbn.Name = "txtIsbn";
-            txtIsbn.ReadOnly = true;
             txtIsbn.Size = new Size(150, 23);
             txtIsbn.TabIndex = 4;
             // 
@@ -134,7 +116,7 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label5.Location = new Point(17, 173);
+            label5.Location = new Point(45, 187);
             label5.Name = "label5";
             label5.Size = new Size(31, 15);
             label5.TabIndex = 3;
@@ -144,7 +126,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label4.Location = new Point(17, 124);
+            label4.Location = new Point(45, 138);
             label4.Name = "label4";
             label4.Size = new Size(46, 15);
             label4.TabIndex = 2;
@@ -154,7 +136,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label3.Location = new Point(17, 73);
+            label3.Location = new Point(45, 87);
             label3.Name = "label3";
             label3.Size = new Size(32, 15);
             label3.TabIndex = 1;
@@ -164,25 +146,23 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label2.Location = new Point(17, 23);
+            label2.Location = new Point(45, 37);
             label2.Name = "label2";
             label2.Size = new Size(35, 15);
             label2.TabIndex = 0;
             label2.Text = "ISBN";
             // 
-            // FrmChildBooks
+            // FrmAddBook
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            ClientSize = new Size(800, 386);
+            ClientSize = new Size(800, 450);
             Controls.Add(groupBox2);
-            Controls.Add(groupBox1);
             Controls.Add(label1);
-            Name = "FrmChildBooks";
+            Name = "FrmAddBook";
             StartPosition = FormStartPosition.Manual;
-            Text = "Books";
-            groupBox1.ResumeLayout(false);
+            Text = "Add a new book";
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
             ResumeLayout(false);
@@ -192,9 +172,7 @@
         #endregion
 
         private Label label1;
-        private GroupBox groupBox1;
         private GroupBox groupBox2;
-        private ListBox lbBooks;
         private TextBox txtYear;
         private TextBox txtAuthor;
         private TextBox txtTitle;
@@ -203,5 +181,6 @@
         private Label label4;
         private Label label3;
         private Label label2;
+        private Button btnSave;
     }
 }

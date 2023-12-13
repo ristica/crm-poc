@@ -1,6 +1,6 @@
 ﻿namespace Crm.Views
 {
-    partial class FrmChildDeleteBook
+    partial class FrmDeleteBook
     {
         /// <summary>
         /// Required designer variable.
@@ -87,7 +87,7 @@
             label2.TabIndex = 0;
             label2.Text = "Books";
             // 
-            // FrmChildDeleteBook
+            // FrmDeleteBook
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -96,7 +96,7 @@
             Controls.Add(groupBox2);
             Controls.Add(label1);
             Font = new Font("Segoe UI", 9F);
-            Name = "FrmChildDeleteBook";
+            Name = "FrmDeleteBook";
             StartPosition = FormStartPosition.Manual;
             Text = "Delete a book";
             groupBox2.ResumeLayout(false);

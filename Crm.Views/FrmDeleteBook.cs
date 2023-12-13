@@ -7,7 +7,7 @@ using Crm.Views.Contracts.Views;
 
 namespace Crm.Views
 {
-    public partial class FrmChildDeleteBook : FrmChildBase<IDeleteBookViewModel>, IFrmDeleteBook
+    public partial class FrmDeleteBook : FrmChildBase<IDeleteBookViewModel>, IFrmDeleteBook
     {
         #region FIELDS
 
@@ -33,7 +33,7 @@ namespace Crm.Views
 
         #region C-TOR
 
-        public FrmChildDeleteBook()
+        public FrmDeleteBook()
         {
             InitializeComponent();
 
