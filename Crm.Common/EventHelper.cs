@@ -1,15 +1,14 @@
 ﻿using Crm.Common.Contracts;
 
-namespace Crm.Common
+namespace Crm.Common;
+
+public class EventHelper : IEventHelper
 {
-    public class EventHelper : IEventHelper
+    public void RaiseEvent(
+        object objectRaisingEvent,
+        EventHandler? eventHandlerRaised,
+        EventArgs eventArgs)
     {
-        public void RaiseEvent(
-            object objectRaisingEvent,
-            EventHandler? eventHandlerRaised,
-            EventArgs eventArgs)
-        {
-            eventHandlerRaised?.Invoke(objectRaisingEvent, eventArgs);
-        }
+        eventHandlerRaised?.Invoke(objectRaisingEvent, eventArgs);
     }
 }

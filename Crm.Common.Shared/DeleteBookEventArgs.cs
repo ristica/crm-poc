@@ -1,12 +1,11 @@
-﻿namespace Crm.Common.Shared
-{
-    public class DeleteBookEventArgs : EventArgs
-    {
-        public int Id { get; private set; }
+﻿namespace Crm.Common.Shared;
 
-        public DeleteBookEventArgs(int id)
-        {
-            this.Id = id;
-        }
+public class DeleteBookEventArgs : EventArgs
+{
+    public int Id { get; private set; }
+
+    public DeleteBookEventArgs(int id)
+    {
+        Id = id;
     }
 }

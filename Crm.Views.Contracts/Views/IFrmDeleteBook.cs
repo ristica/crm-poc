@@ -1,10 +1,9 @@
 ﻿using Crm.Views.Contracts.Base;
 using System.ComponentModel;
 
-namespace Crm.Views.Contracts.Views
+namespace Crm.Views.Contracts.Views;
+
+public interface IFrmDeleteBook : IBaseChildView, INotifyPropertyChanged
 {
-    public interface IFrmDeleteBook : IBaseChildView, INotifyPropertyChanged
-    {
-        void UpdateBindings();
-    }
+    void UpdateBindings();
 }

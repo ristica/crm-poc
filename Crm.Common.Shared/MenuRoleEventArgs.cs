@@ -1,12 +1,11 @@
-﻿namespace Crm.Common.Shared
-{
-    public class MenuRoleEventArgs : EventArgs
-    {
-        public string NewRole { get; private set; }
+﻿namespace Crm.Common.Shared;
 
-        public MenuRoleEventArgs(string newRole)
-        {
-            this.NewRole = newRole;
-        }
+public class MenuRoleEventArgs : EventArgs
+{
+    public string NewRole { get; private set; }
+
+    public MenuRoleEventArgs(string newRole)
+    {
+        NewRole = newRole;
     }
 }

@@ -1,7 +1,6 @@
-﻿namespace Crm.Views.Contracts.Base
+﻿namespace Crm.Views.Contracts.Base;
+
+public interface IBaseUserControl
 {
-    public interface IBaseUserControl
-    {
-        void UpdateMe();
-    }
+    void UpdateMe();
 }

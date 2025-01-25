@@ -1,9 +1,7 @@
 ﻿using Crm.Presenters.Contracts.Base;
 
-namespace Crm.Presenters.Contracts
-{
-    public interface IMainViewPresenter : IBaseViewPresenter
-    {
+namespace Crm.Presenters.Contracts;
 
-    }
+public interface IMainViewPresenter : IBaseViewPresenter
+{
 }

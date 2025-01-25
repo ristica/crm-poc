@@ -1,10 +1,9 @@
 ﻿using Crm.Views.Contracts.Base;
 
-namespace Crm.Presenters.Contracts.Base
+namespace Crm.Presenters.Contracts.Base;
+
+public interface IBaseViewPresenter : IDisposable
 {
-    public interface IBaseViewPresenter : IDisposable
-    {
-        IBaseView GetView();
-        void ShowView();
-    }
+    IBaseView GetView();
+    void ShowView();
 }

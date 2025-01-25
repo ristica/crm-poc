@@ -1,11 +1,10 @@
 ﻿using Crm.Views.Contracts.Base;
 
-namespace Crm.Presenters.Contracts.Base
+namespace Crm.Presenters.Contracts.Base;
+
+public interface IBaseChildViewPresenter : IDisposable
 {
-    public interface IBaseChildViewPresenter : IDisposable
-    {
-        IBaseChildView GetView();
-        void ShowView(IBaseView mdiContainerForm);
-        void SetCurrentRole(string role);
-    }
+    IBaseChildView GetView();
+    void ShowView(IBaseView mdiContainerForm);
+    void SetCurrentRole(string role);
 }

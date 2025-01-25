@@ -14,60 +14,59 @@ using Crm.Services.Contracts;
 using Crm.Views;
 using Crm.Views.Contracts.Views;
 
-namespace Crm.Bootstrapper
+namespace Crm.Bootstrapper;
+
+public class DependencyInitializer
 {
-    public class DependencyInitializer
+    public static void Initialize(IDependencyContainer container)
     {
-        public static void Initialize(IDependencyContainer container)
-        {
-            RegisterCommonComponents(container);
-            RegisterPresenters(container);
-            RegisterRepositories(container);
-            RegisterModel(container);
-            RegisterForms(container);
-            RegisterServices(container);
-        }
+        RegisterCommonComponents(container);
+        RegisterPresenters(container);
+        RegisterRepositories(container);
+        RegisterModel(container);
+        RegisterForms(container);
+        RegisterServices(container);
+    }
 
-        private static void RegisterCommonComponents(IDependencyContainer container)
-        {
-            container.RegisterType<IEventHelper, EventHelper>();
-            container.RegisterTypeAsSingleton<IMessageNotificationsHelper, MessageNotificationsHelper>();
-        }
+    private static void RegisterCommonComponents(IDependencyContainer container)
+    {
+        container.RegisterType<IEventHelper, EventHelper>();
+        container.RegisterTypeAsSingleton<IMessageNotificationsHelper, MessageNotificationsHelper>();
+    }
 
-        private static void RegisterPresenters(IDependencyContainer container)
-        {
-            container.RegisterType<IMainViewPresenter, MainViewPresenter>();
-            container.RegisterType<IBooksViewPresenter, BooksViewPresenter>();
-            container.RegisterType<IAddBookViewPresenter, AddBookViewPresenter>();
-            container.RegisterType<IDeleteBookViewPresenter, DeleteBookViewPresenter>();
-        }
+    private static void RegisterPresenters(IDependencyContainer container)
+    {
+        container.RegisterType<IMainViewPresenter, MainViewPresenter>();
+        container.RegisterType<IBooksViewPresenter, BooksViewPresenter>();
+        container.RegisterType<IAddBookViewPresenter, AddBookViewPresenter>();
+        container.RegisterType<IDeleteBookViewPresenter, DeleteBookViewPresenter>();
+    }
 
-        private static void RegisterRepositories(IDependencyContainer container)
-        {
-            container.RegisterType<IBooksRepository, BooksRepository>();
-        }
+    private static void RegisterRepositories(IDependencyContainer container)
+    {
+        container.RegisterType<IBooksRepository, BooksRepository>();
+    }
 
-        private static void RegisterModel(IDependencyContainer container)
-        {
-            container.RegisterType<IMainViewModel, MainViewModel>();
-            container.RegisterType<IBookViewModel, BookViewModel>();
-            container.RegisterType<IAddBookViewModel, AddBookViewModel>();
-            container.RegisterType<IDeleteBookViewModel, DeleteBookViewModel>();
+    private static void RegisterModel(IDependencyContainer container)
+    {
+        container.RegisterType<IMainViewModel, MainViewModel>();
+        container.RegisterType<IBookViewModel, BookViewModel>();
+        container.RegisterType<IAddBookViewModel, AddBookViewModel>();
+        container.RegisterType<IDeleteBookViewModel, DeleteBookViewModel>();
 
-            container.RegisterType<IBook, Book>();
-        }
+        container.RegisterType<IBook, Book>();
+    }
 
-        private static void RegisterForms(IDependencyContainer container)
-        {
-            container.RegisterType<IFrmMain, FrmMain>();
-            container.RegisterType<IFrmBooks, FrmBooks>();
-            container.RegisterType<IFrmAddBook, FrmAddBook>();
-            container.RegisterType<IFrmDeleteBook, FrmDeleteBook>();
-        }
+    private static void RegisterForms(IDependencyContainer container)
+    {
+        container.RegisterType<IFrmMain, FrmMain>();
+        container.RegisterType<IFrmBooks, FrmBooks>();
+        container.RegisterType<IFrmAddBook, FrmAddBook>();
+        container.RegisterType<IFrmDeleteBook, FrmDeleteBook>();
+    }
 
-        private static void RegisterServices(IDependencyContainer container)
-        {
-            container.RegisterType(typeof(IBooksService<>), typeof(BooksService<>));
-        }
+    private static void RegisterServices(IDependencyContainer container)
+    {
+        container.RegisterType(typeof(IBooksService<>), typeof(BooksService<>));
     }
 }

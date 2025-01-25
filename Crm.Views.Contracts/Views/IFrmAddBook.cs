@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel;
 using Crm.Views.Contracts.Base;
 
-namespace Crm.Views.Contracts.Views
+namespace Crm.Views.Contracts.Views;
+
+public interface IFrmAddBook : IBaseChildView, INotifyPropertyChanged
 {
-    public interface IFrmAddBook : IBaseChildView, INotifyPropertyChanged
-    {
-    }
 }

@@ -1,11 +1,10 @@
-﻿namespace Crm.Views.Contracts.Base
-{
-    public interface IBaseView
-    {
-        event EventHandler FormLoadEventRaised;
-        event EventHandler FormCloseEventRaised;
+﻿namespace Crm.Views.Contracts.Base;
 
-        string? WindowTitle { get; set; }
-        void ShowView();
-    }
+public interface IBaseView
+{
+    event EventHandler FormLoadEventRaised;
+    event EventHandler FormCloseEventRaised;
+
+    string? WindowTitle { get; set; }
+    void ShowView();
 }

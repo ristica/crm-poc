@@ -1,8 +1,7 @@
 ﻿using Crm.Presenters.Contracts.Base;
 
-namespace Crm.Presenters.Contracts
+namespace Crm.Presenters.Contracts;
+
+public interface IBooksViewPresenter : IBaseChildViewPresenter
 {
-    public interface IBooksViewPresenter : IBaseChildViewPresenter
-    {
-    }
 }

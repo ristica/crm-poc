@@ -1,11 +1,10 @@
-﻿namespace Crm.Common.Shared
+﻿namespace Crm.Common.Shared;
+
+public enum MessageType
 {
-    public enum MessageType
-    {
-        RoleChangedMessage,
-        FormChangedMessage,
-        AddBookMessage,
-        DeleteBookMessage,
-        ReloadBooksMessage
-    }
+    RoleChangedMessage,
+    FormChangedMessage,
+    AddBookMessage,
+    DeleteBookMessage,
+    ReloadBooksMessage
 }

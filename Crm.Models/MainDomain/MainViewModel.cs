@@ -4,218 +4,244 @@ using Crm.Dependencies.Contracts;
 using Crm.Models.Base;
 using Crm.Models.Contracts.MainDomain;
 
-namespace Crm.Models.MainDomain
+namespace Crm.Models.MainDomain;
+
+public class MainViewModel : BaseRoleViewModel, IMainViewModel
 {
-    public class MainViewModel : BaseRoleViewModel, IMainViewModel
+    #region FIELDS
+
+    // Menu: ROLES
+    private RelayCommand _roleNoCommand;
+    private RelayCommand _roleReadCommand;
+    private RelayCommand _roleReadWriteCommand;
+    private RelayCommand _roleReadWriteDeleteCommand;
+
+    // Menu: Forms
+    private RelayCommand _openReadFormCommand;
+    private RelayCommand _openReadWriteFormCommand;
+    private RelayCommand _openReadWriteDeleteFormCommand;
+
+    #endregion
+
+    #region COMMANDS
+
+    public RelayCommand RoleNoCommand
     {
-        #region FIELDS
-
-        // Menu: ROLES
-        private RelayCommand _roleNoCommand;
-        private RelayCommand _roleReadCommand;
-        private RelayCommand _roleReadWriteCommand;
-        private RelayCommand _roleReadWriteDeleteCommand;
-
-        // Menu: Forms
-        private RelayCommand _openReadFormCommand;
-        private RelayCommand _openReadWriteFormCommand;
-        private RelayCommand _openReadWriteDeleteFormCommand;
-
-        #endregion
-
-        #region COMMANDS
-
-        public RelayCommand RoleNoCommand
+        get => _roleNoCommand;
+        private set
         {
-            get => this._roleNoCommand;
-            private set
-            {
-                if (this._roleNoCommand == value) return;
-                this._roleNoCommand = value;
-                OnPropertyChanged();
-            }
+            if (_roleNoCommand == value) return;
+            _roleNoCommand = value;
+            OnPropertyChanged();
         }
-
-        public RelayCommand RoleReadCommand
-        {
-            get => this._roleReadCommand;
-            private set
-            {
-                if (this._roleReadCommand == value) return;
-                this._roleReadCommand = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public RelayCommand RoleReadWriteCommand
-        {
-            get => this._roleReadWriteCommand;
-            private set
-            {
-                if (this._roleReadWriteCommand == value) return;
-                this._roleReadWriteCommand = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public RelayCommand RoleReadWriteDeleteCommand
-        {
-            get => this._roleReadWriteDeleteCommand;
-            private set
-            {
-                if (this._roleReadWriteDeleteCommand == value) return;
-                this._roleReadWriteDeleteCommand = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public RelayCommand OpenReadFormCommand
-        {
-            get => this._openReadFormCommand;
-            private set
-            {
-                if (this._openReadFormCommand == value) return;
-                this._openReadFormCommand = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public RelayCommand OpenReadWriteFormCommand
-        {
-            get => this._openReadWriteFormCommand;
-            private set
-            {
-                if (this._openReadWriteFormCommand == value) return;
-                this._openReadWriteFormCommand = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public RelayCommand OpenReadWriteDeleteFormCommand
-        {
-            get => this._openReadWriteDeleteFormCommand;
-            private set
-            {
-                if (this._openReadWriteDeleteFormCommand == value) return;
-                this._openReadWriteDeleteFormCommand = value;
-                OnPropertyChanged();
-            }
-        }
-
-        #endregion
-
-        #region C-TOR
-
-        public MainViewModel(IDependencyContainer dependencyContainer) : base(dependencyContainer)
-        {
-            this.InitializeCommands();
-        }
-
-        #endregion
-
-        #region METHODS
-
-        protected override void NotifyCommands()
-        {
-            this.OpenReadFormCommand.NotifyCanExecuteChanged();
-            this.OpenReadWriteFormCommand.NotifyCanExecuteChanged();
-            this.OpenReadWriteDeleteFormCommand.NotifyCanExecuteChanged();
-        }
-
-        #endregion
-
-        #region HELPERS
-
-        private void InitializeCommands()
-        {
-            this.RoleNoCommand =
-                new RelayCommand(ExecuteRoleNoCommand, CanExecuteRoleNoCommand);
-            this.RoleReadCommand =
-                new RelayCommand(ExecuteRoleReadCommand, CanExecuteRoleReadCommand);
-            this.RoleReadWriteCommand =
-                new RelayCommand(ExecuteRoleReadWriteCommand, CanExecuteRoleReadWriteCommand);
-            this.RoleReadWriteDeleteCommand =
-                new RelayCommand(ExecuteRoleReadWriteDeleteCommand, CanExecuteRoleReadWriteDeleteCommand);
-            this.OpenReadFormCommand =
-                new RelayCommand(ExecuteOpenReadFormCommand, CanExecuteOpenReadFormCommand);
-            this.OpenReadWriteFormCommand =
-                new RelayCommand(ExecuteOpenReadWriteFormCommand, CanExecuteOpenReadWriteFormCommand);
-            this.OpenReadWriteDeleteFormCommand =
-                new RelayCommand(ExecuteOpenReadWriteDeleteFormCommand, CanExecuteOpenReadWriteDeleteFormCommand);
-        }
-
-        #endregion
-
-        #region CAN EXECUTE
-
-        private bool CanExecuteRoleNoCommand() => true;
-        private bool CanExecuteRoleReadCommand() => true;
-        private bool CanExecuteRoleReadWriteCommand() => true;
-        private bool CanExecuteRoleReadWriteDeleteCommand() => true;
-        private bool CanExecuteOpenReadFormCommand() => this.IsRead;
-        private bool CanExecuteOpenReadWriteFormCommand() => this.IsReadWrite;
-        private bool CanExecuteOpenReadWriteDeleteFormCommand() => this.IsReadWriteDelete;
-
-        #endregion
-
-        #region EXECUTE
-
-        private void ExecuteRoleNoCommand()
-        {
-            this.MessageNotificationsHelper.Publish(
-                this,
-                new MenuRoleEventArgs(Common.Shared.MenuRoleConstants.NoRole),
-                (int)MessageType.RoleChangedMessage);
-        }
-
-        private void ExecuteRoleReadCommand()
-        {
-            this.MessageNotificationsHelper.Publish(
-                this,
-                new MenuRoleEventArgs(Common.Shared.MenuRoleConstants.Read),
-                (int)MessageType.RoleChangedMessage);
-        }
-
-        private void ExecuteRoleReadWriteCommand()
-        {
-            this.MessageNotificationsHelper.Publish(
-                this,
-                new MenuRoleEventArgs(Common.Shared.MenuRoleConstants.ReadWrite),
-                (int)MessageType.RoleChangedMessage);
-        }
-
-        private void ExecuteRoleReadWriteDeleteCommand()
-        {
-            this.MessageNotificationsHelper.Publish(
-                this,
-                new MenuRoleEventArgs(Common.Shared.MenuRoleConstants.ReadWriteDelete),
-                (int)MessageType.RoleChangedMessage);
-        }
-
-        private void ExecuteOpenReadFormCommand()
-        {
-            this.MessageNotificationsHelper.Publish(
-                this,
-                new MenuFormsEventArgs(Common.Shared.MenuFormsConstants.Books),
-                (int)MessageType.FormChangedMessage);
-        }
-
-        private void ExecuteOpenReadWriteFormCommand()
-        {
-            this.MessageNotificationsHelper.Publish(
-                this,
-                new MenuFormsEventArgs(Common.Shared.MenuFormsConstants.AddBook),
-                (int)MessageType.FormChangedMessage);
-        }
-
-        private void ExecuteOpenReadWriteDeleteFormCommand()
-        {
-            this.MessageNotificationsHelper.Publish(
-                this,
-                new MenuFormsEventArgs(Common.Shared.MenuFormsConstants.DeleteBook),
-                (int)MessageType.FormChangedMessage);
-        }
-
-        #endregion
     }
+
+    public RelayCommand RoleReadCommand
+    {
+        get => _roleReadCommand;
+        private set
+        {
+            if (_roleReadCommand == value) return;
+            _roleReadCommand = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public RelayCommand RoleReadWriteCommand
+    {
+        get => _roleReadWriteCommand;
+        private set
+        {
+            if (_roleReadWriteCommand == value) return;
+            _roleReadWriteCommand = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public RelayCommand RoleReadWriteDeleteCommand
+    {
+        get => _roleReadWriteDeleteCommand;
+        private set
+        {
+            if (_roleReadWriteDeleteCommand == value) return;
+            _roleReadWriteDeleteCommand = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public RelayCommand OpenReadFormCommand
+    {
+        get => _openReadFormCommand;
+        private set
+        {
+            if (_openReadFormCommand == value) return;
+            _openReadFormCommand = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public RelayCommand OpenReadWriteFormCommand
+    {
+        get => _openReadWriteFormCommand;
+        private set
+        {
+            if (_openReadWriteFormCommand == value) return;
+            _openReadWriteFormCommand = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public RelayCommand OpenReadWriteDeleteFormCommand
+    {
+        get => _openReadWriteDeleteFormCommand;
+        private set
+        {
+            if (_openReadWriteDeleteFormCommand == value) return;
+            _openReadWriteDeleteFormCommand = value;
+            OnPropertyChanged();
+        }
+    }
+
+    #endregion
+
+    #region C-TOR
+
+    public MainViewModel(IDependencyContainer dependencyContainer) : base(dependencyContainer)
+    {
+        InitializeCommands();
+    }
+
+    #endregion
+
+    #region METHODS
+
+    protected override void NotifyCommands()
+    {
+        OpenReadFormCommand.NotifyCanExecuteChanged();
+        OpenReadWriteFormCommand.NotifyCanExecuteChanged();
+        OpenReadWriteDeleteFormCommand.NotifyCanExecuteChanged();
+    }
+
+    #endregion
+
+    #region HELPERS
+
+    private void InitializeCommands()
+    {
+        RoleNoCommand =
+            new RelayCommand(ExecuteRoleNoCommand, CanExecuteRoleNoCommand);
+        RoleReadCommand =
+            new RelayCommand(ExecuteRoleReadCommand, CanExecuteRoleReadCommand);
+        RoleReadWriteCommand =
+            new RelayCommand(ExecuteRoleReadWriteCommand, CanExecuteRoleReadWriteCommand);
+        RoleReadWriteDeleteCommand =
+            new RelayCommand(ExecuteRoleReadWriteDeleteCommand, CanExecuteRoleReadWriteDeleteCommand);
+        OpenReadFormCommand =
+            new RelayCommand(ExecuteOpenReadFormCommand, CanExecuteOpenReadFormCommand);
+        OpenReadWriteFormCommand =
+            new RelayCommand(ExecuteOpenReadWriteFormCommand, CanExecuteOpenReadWriteFormCommand);
+        OpenReadWriteDeleteFormCommand =
+            new RelayCommand(ExecuteOpenReadWriteDeleteFormCommand, CanExecuteOpenReadWriteDeleteFormCommand);
+    }
+
+    #endregion
+
+    #region CAN EXECUTE
+
+    private bool CanExecuteRoleNoCommand()
+    {
+        return true;
+    }
+
+    private bool CanExecuteRoleReadCommand()
+    {
+        return true;
+    }
+
+    private bool CanExecuteRoleReadWriteCommand()
+    {
+        return true;
+    }
+
+    private bool CanExecuteRoleReadWriteDeleteCommand()
+    {
+        return true;
+    }
+
+    private bool CanExecuteOpenReadFormCommand()
+    {
+        return IsRead;
+    }
+
+    private bool CanExecuteOpenReadWriteFormCommand()
+    {
+        return IsReadWrite;
+    }
+
+    private bool CanExecuteOpenReadWriteDeleteFormCommand()
+    {
+        return IsReadWriteDelete;
+    }
+
+    #endregion
+
+    #region EXECUTE
+
+    private void ExecuteRoleNoCommand()
+    {
+        MessageNotificationsHelper.Publish(
+            this,
+            new MenuRoleEventArgs(MenuRoleConstants.NoRole),
+            (int)MessageType.RoleChangedMessage);
+    }
+
+    private void ExecuteRoleReadCommand()
+    {
+        MessageNotificationsHelper.Publish(
+            this,
+            new MenuRoleEventArgs(MenuRoleConstants.Read),
+            (int)MessageType.RoleChangedMessage);
+    }
+
+    private void ExecuteRoleReadWriteCommand()
+    {
+        MessageNotificationsHelper.Publish(
+            this,
+            new MenuRoleEventArgs(MenuRoleConstants.ReadWrite),
+            (int)MessageType.RoleChangedMessage);
+    }
+
+    private void ExecuteRoleReadWriteDeleteCommand()
+    {
+        MessageNotificationsHelper.Publish(
+            this,
+            new MenuRoleEventArgs(MenuRoleConstants.ReadWriteDelete),
+            (int)MessageType.RoleChangedMessage);
+    }
+
+    private void ExecuteOpenReadFormCommand()
+    {
+        MessageNotificationsHelper.Publish(
+            this,
+            new MenuFormsEventArgs(MenuFormsConstants.Books),
+            (int)MessageType.FormChangedMessage);
+    }
+
+    private void ExecuteOpenReadWriteFormCommand()
+    {
+        MessageNotificationsHelper.Publish(
+            this,
+            new MenuFormsEventArgs(MenuFormsConstants.AddBook),
+            (int)MessageType.FormChangedMessage);
+    }
+
+    private void ExecuteOpenReadWriteDeleteFormCommand()
+    {
+        MessageNotificationsHelper.Publish(
+            this,
+            new MenuFormsEventArgs(MenuFormsConstants.DeleteBook),
+            (int)MessageType.FormChangedMessage);
+    }
+
+    #endregion
 }
